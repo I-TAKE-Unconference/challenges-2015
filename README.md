@@ -18,33 +18,33 @@ You have time until May 29, 2 pm. Any pull request done after this time will not
 
 Show your craftsman skills in a set of short challenges and gather up to 100 points. The person with most points wins a gadget.
 
-## For 10 points: Tweet to @itakeunconf a photo with you pair programming with another attendee at the conference with the hashtag #itakecontest.
+## 1. For 10 points: Tweet to @itakeunconf a photo with you pair programming with another attendee at the conference with the hashtag #itakecontest.
 
 You get the points if we can see both of you on a keyboard in front of a screen with code on it.
 
 To make sure that we get this right, please write down the url of the tweet in the solution.txt file in "challenge-1" folder. We will also check the twitter activity, but we need a way to link you to your twitter account.
 
-## For max 20 points: Write all the test names you would write 
+## 2. For max 20 points: Write all the test names you would write 
 
 The code is located in the "challenge-2" folder. Write down your solution in the file solution.txt.
 
 You get points for: clear test names, the number of behaviors covered. You will NOT get extra points if you actually write the tests.
 
-## For max 20 points:  Describe briefly all the bugs you find in this code
+## 3. For max 20 points:  Describe briefly all the bugs you find in this code
 
 The code is located in the "challenge-3" folder. Write down your solution in the file solution.txt.
 
 You get points for: clarity of description, completion of description (line of code where the bug is located, what is wrong and what should be the correct behavior) and the number of bugs found. Max 20 points
 
-## For max 20 points: Review this code and write down all the code smells you found
+## 4. For max 20 points: Review this code and write down all the code smells you found
 
 The code is located in the "challenge-4" folder. Write down your solution in the file solution.txt.
 
 You get points for: clarity of description and on the number of code smells found.
 
-## For max 30 points: Refactor this code.
+## 5. For max 30 points: Refactor this code.
 
 The code is located in the "challenge-5" folder. Change it in place.
 
-You get points for: increased readability, reduced duplication and improved design. You will be penalized if you change the behavior of the method. Max 30 points
+You get points for: increased readability, reduced duplication and following SOLID principles. You will be penalized if you change the behavior of the method. Max 30 points
 
