@@ -88,5 +88,4 @@ You will get:
 
 * 0 points if no pull request 
 * 1 point if you make a pull request even if there's no solution
-* 2-20 points if you make a pull request with a partial or complete solution
-
+* 2-30 points if you make a pull request with a partial or complete solution
