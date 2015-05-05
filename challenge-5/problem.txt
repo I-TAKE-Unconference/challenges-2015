@@ -1,0 +1,13 @@
+# Challenge #5: Refactor this code
+
+The code is located in the "code" folder. Change it in place.
+
+You get points for: increased readability, reduced duplication and following SOLID principles. You will be penalized if you change the behavior of the method. 
+
+When done, make a pull request with the title "challenge 5".
+
+You will get:
+
+* 0 points if no pull request 
+* 1 point if you make a pull request even if there's no solution
+* 2-30 points if you make a pull request with a partial or complete solution

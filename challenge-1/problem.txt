@@ -1,6 +1,4 @@
-# Challenge #1 
-
-Tweet to @itakeunconf a photo with you pair programming with another attendee at the conference with the hashtag #itakecontest.
+# Challenge #1: Tweet to @itakeunconf a photo with you pair programming with another attendee at the conference with the hashtag #itakecontest
 
 You get the points if we can see both of you on a keyboard in front of a screen with code on it.
 

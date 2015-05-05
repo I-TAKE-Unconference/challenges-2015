@@ -1,0 +1,15 @@
+# Challenge #3: Describe briefly all the bugs you find in this code
+
+The code is located in the "code" folder. Write down your solution in the file solution.txt.
+
+You get points for: clarity of description, completion of description (line of code where the bug is located, what is wrong and what should be the correct behavior) and the number of bugs found. Max 20 points
+
+When done, make a pull request with the title "challenge 3".
+
+You will get:
+
+* 0 points if no pull request 
+* 1 point if you make a pull request even if there's no solution
+* 2-20 points if you make a pull request with a partial or complete solution
+
+

@@ -24,9 +24,7 @@ Show your craftsman skills in a set of short challenges and gather up to 100 poi
 
 You get the points if we can see both of you on a keyboard in front of a screen with code on it.
 
-To make sure that we get this right, please write down the url of the tweet in the solution.txt file in "challenge-1" folder. We will also check the twitter activity, but we need a way to link you to your twitter account.
-
-When done, make a pull request with the title "challenge 1". 
+To make sure that we get this right, please write down the url of the tweet in the solution.txt file in "challenge-1" folder. When done, make a pull request with the title "challenge 1". 
 
 You will get:
 

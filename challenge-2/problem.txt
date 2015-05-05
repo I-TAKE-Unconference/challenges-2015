@@ -1,0 +1,13 @@
+# Challenge #2: Write all the test names you would write 
+
+The code is located in the "code" folder. Write down your solution in the file solution.txt.
+
+You get points for: clear test names, the number of behaviors covered. You will NOT get extra points if you actually write the tests.
+
+When done, make a pull request with the title "challenge 2".
+
+You will get:
+
+* 0 points if no pull request 
+* 1 point if you make a pull request even if there's no solution
+* 2-20 points if you make a pull request with a partial or complete solution

@@ -1,0 +1,13 @@
+# Challenge #4: Review this code and write down all the code smells you found
+
+The code is located in the "code" folder. Write down your solution in the file solution.txt.
+
+You get points for: clarity of description and on the number of code smells found.
+
+When done, make a pull request with the title "challenge 4".
+
+You will get:
+
+* 0 points if no pull request 
+* 1 point if you make a pull request even if there's no solution
+* 2-20 points if you make a pull request with a partial or complete solution
