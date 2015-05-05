@@ -1,0 +1,13 @@
+# Challenge #1 
+
+Tweet to @itakeunconf a photo with you pair programming with another attendee at the conference with the hashtag #itakecontest.
+
+You get the points if we can see both of you on a keyboard in front of a screen with code on it.
+
+To make sure that we get this right, please write down the url of the tweet in the "solution.txt" file. When done, make a pull request with the title "challenge 1". 
+
+You will get:
+
+* 0 points if no tweet and if no pull request
+* 1 point if you make a pull request even if there's no tweet
+* 10 points if you make a pull request and there is a tweet conforming the spec
