@@ -24,11 +24,15 @@ You get the points if we can see both of you on a keyboard in front of a screen 
 
 To make sure that we get this right, please write down the url of the tweet in the solution.txt file in "challenge-1" folder. We will also check the twitter activity, but we need a way to link you to your twitter account.
 
+When done, make a pull request with the title "challenge 1".
+
 ## 2. For max 20 points: Write all the test names you would write 
 
 The code is located in the "challenge-2" folder. Write down your solution in the file solution.txt.
 
 You get points for: clear test names, the number of behaviors covered. You will NOT get extra points if you actually write the tests.
+
+When done, make a pull request with the title "challenge 2".
 
 ## 3. For max 20 points:  Describe briefly all the bugs you find in this code
 
@@ -36,11 +40,15 @@ The code is located in the "challenge-3" folder. Write down your solution in the
 
 You get points for: clarity of description, completion of description (line of code where the bug is located, what is wrong and what should be the correct behavior) and the number of bugs found. Max 20 points
 
+When done, make a pull request with the title "challenge 3".
+
 ## 4. For max 20 points: Review this code and write down all the code smells you found
 
 The code is located in the "challenge-4" folder. Write down your solution in the file solution.txt.
 
 You get points for: clarity of description and on the number of code smells found.
+
+When done, make a pull request with the title "challenge 4".
 
 ## 5. For max 30 points: Refactor this code.
 
@@ -48,3 +56,4 @@ The code is located in the "challenge-5" folder. Change it in place.
 
 You get points for: increased readability, reduced duplication and following SOLID principles. You will be penalized if you change the behavior of the method. Max 30 points
 
+When done, make a pull request with the title "challenge 5".
