@@ -18,6 +18,8 @@ After all the moves are introduced, the program decides the winner.
 
 You get points for: increased readability, reduced duplication and following SOLID principles. You will be penalized if you change the behavior of the code (this includes any bugs you might find).
 
+Special note for the c version: you are allowed to change it to c++ if you think you can obtain better results.
+
 You will get:
 
 * 0 points if no pull request 
