@@ -2,7 +2,9 @@
 
 ## Instructions
 
-Refactor the code as much as you can. The code is located in the "code" folder. Change it in place. When done, make a pull request with the title "challenge 5".
+Refactor the code as much as you can. The code is located in the "code" folder and is available in multiple programming languages; pick the one you know best. 
+
+Change the code in place. When done, make a pull request with the title "challenge 5".
 
 The code implements a naive TicTacToe game. The first player is picked randomly. Then, the moves are introduced by the two users. The board is considered to be 3x3 and the move is represented as an integer from 1 to 9. Each number represents a place on the board, going from left to right and top to bottom, like this:
 
