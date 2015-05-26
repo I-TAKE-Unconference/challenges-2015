@@ -1,10 +1,19 @@
 # Challenge #2: Write all the test names you would write 
 
+Write a comprehensive list of all the test names you would write for the class "GenerateCsv". When done, make a pull request with the title "challenge 2".
+
+## Details
+
 The code is located in the "code" folder. Write down your solution in the file solution.txt.
 
-You get points for: clear test names, the number of behaviors covered. You will NOT get extra points if you actually write the tests.
+### Scoring
 
-When done, make a pull request with the title "challenge 2".
+You get points for: 
+
+* clear test names
+* the number of behaviors covered.
+
+You will NOT get points if you write the tests or for tests checking only the private methods.
 
 You will get:
 
