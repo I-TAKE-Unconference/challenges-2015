@@ -1,0 +1,10 @@
+*.iml
+.idea/
+.gradle/
+gradle/
+build/
+target/
+out/
+*.zip
+.hg
+.dub
