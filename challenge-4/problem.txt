@@ -1,10 +1,20 @@
 # Challenge #4: Review this code and write down all the code smells you found
 
-The code is located in the "code" folder. Write down your solution in the file solution.txt.
+## Instructions
 
-You get points for: clarity of description and on the number of code smells found.
+Review the file "Calculation.cs" from the code folder. Write down all the code smells you found in the solution.txt file.
+
+For each code smell, specify:
+
+* the line where you found it
+* the name of the code smell
+* paste the code fragment that shows the smell
 
 When done, make a pull request with the title "challenge 4".
+
+## Scoring
+
+You get points for: clarity of description and on the number of code smells found.
 
 You will get:
 
