@@ -1,10 +1,20 @@
 # Challenge #3: Describe briefly all the bugs you find in this code
 
-The code is located in the "code" folder. Write down your solution in the file solution.txt.
+## Instructions
 
-You get points for: clarity of description, completion of description (line of code where the bug is located, what is wrong and what should be the correct behavior) and the number of bugs found. Max 20 points
+Describe briefly all the bugs you can find in the file "Tic.cs" from the "code" folder. The code is a naive implementation of the TicTacToe game.
+
+For each bug you find, write down in the file "solution.txt" the following:
+
+* description of current behavior
+* description of expected behavior
+* location of bug (method or line number)
 
 When done, make a pull request with the title "challenge 3".
+
+## Scoring
+
+You get points for: clarity of description, completion of description and the number of bugs found.
 
 You will get:
 
