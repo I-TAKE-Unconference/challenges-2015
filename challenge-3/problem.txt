@@ -4,6 +4,14 @@
 
 Describe briefly all the bugs you can find in the file "Tic.cs" from the "code" folder. The code is a naive implementation of the TicTacToe game.
 
+The code implements a naive TicTacToe game. The moves are introduced by the two users from the console. The board is considered to be 3x3 and the move is represented as an integer from 1 to 9. Each number represents a place on the board, going from left to right and top to bottom, like this:
+
+1 2 3
+4 5 6
+7 8 9
+
+After all the moves are introduced, the program decides the winner.
+
 For each bug you find, write down in the file "solution.txt" the following:
 
 * description of current behavior
