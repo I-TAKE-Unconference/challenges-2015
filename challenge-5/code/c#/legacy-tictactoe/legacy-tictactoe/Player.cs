@@ -17,7 +17,7 @@ namespace TicTacToe
 
         public override string ToString()
         {
-            return String.Format("player {0}:", Name);
+            return String.Format("player {0}", Name);
         }
     }
 }

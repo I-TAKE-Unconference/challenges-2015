@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace TicTacToe
@@ -11,18 +12,6 @@ namespace TicTacToe
         {
             var position = Int32.Parse(move);
             board[position] = player.Token;
-        }
-
-        public bool HasPlayerWon(char playerToken)
-        {
-            return (board[1] == playerToken) && (board[2] == playerToken) && (board[3] == playerToken) ||
-                   (board[4] == playerToken) && (board[5] == playerToken) && (board[6] == playerToken) ||
-                   (board[7] == playerToken) && (board[8] == playerToken) && (board[9] == playerToken) ||
-                   (board[1] == playerToken) && (board[4] == playerToken) && (board[7] == playerToken) ||
-                   (board[2] == playerToken) && (board[5] == playerToken) && (board[8] == playerToken) ||
-                   (board[3] == playerToken) && (board[6] == playerToken) && (board[9] == playerToken) ||
-                   (board[1] == playerToken) && (board[5] == playerToken) && (board[9] == playerToken) ||
-                   (board[3] == playerToken) && (board[5] == playerToken) && (board[7] == playerToken);
         }
 
 
@@ -38,6 +27,32 @@ namespace TicTacToe
                 }
             }
             return stringBuilder.ToString();
+        }
+
+        private bool HasPlayerWon(Player player)
+        {
+            char playerToken = player.Token;
+            return (board[1] == playerToken) && (board[2] == playerToken) && (board[3] == playerToken) ||
+                   (board[4] == playerToken) && (board[5] == playerToken) && (board[6] == playerToken) ||
+                   (board[7] == playerToken) && (board[8] == playerToken) && (board[9] == playerToken) ||
+                   (board[1] == playerToken) && (board[4] == playerToken) && (board[7] == playerToken) ||
+                   (board[2] == playerToken) && (board[5] == playerToken) && (board[8] == playerToken) ||
+                   (board[3] == playerToken) && (board[6] == playerToken) && (board[9] == playerToken) ||
+                   (board[1] == playerToken) && (board[5] == playerToken) && (board[9] == playerToken) ||
+                   (board[3] == playerToken) && (board[5] == playerToken) && (board[7] == playerToken);
+        }
+
+        public IEnumerable<Player> GetWinningPlayers()
+        {
+            if (HasPlayerWon(Player.A))
+            {
+                yield return Player.A;
+            }
+
+            if (HasPlayerWon(Player.B))
+            {
+                yield return Player.B;
+            }
         }
     }
 }
