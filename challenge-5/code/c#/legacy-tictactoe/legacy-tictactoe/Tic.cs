@@ -5,7 +5,6 @@ namespace legacytictactoe
 {
     public class Tic
     {
-        private int i, a;
         public char[] tab = new char[10];
         private readonly TextReader inputStream;
         private readonly TextWriter outStream;
@@ -20,29 +19,29 @@ namespace legacytictactoe
         {
             if (IsAFirstPlayer())
             {
-                for (i = 1; i <= 9; i++)
+                for (var i = 1; i <= 9; i++)
                 {
                     if (i%2 != 0)
                     {
-                        ReadPlayerAMove();
+                        AddPlayerAMove(inputStream.ReadLine());
                     }
                     else
                     {
-                        ReadPlayerBMove();
+                        AddPlayerBMove(inputStream.ReadLine());
                     }
                 }
             }
             else
             {
-                for (i = 1; i <= 9; i++)
+                for (var i = 1; i <= 9; i++)
                 {
                     if (i%2 != 0)
                     {
-                        ReadPlayerBMove();
+                        AddPlayerBMove(inputStream.ReadLine());
                     }
                     else
                     {
-                        ReadPlayerAMove();
+                        AddPlayerAMove(inputStream.ReadLine());
                     }
                 }
             }
@@ -53,17 +52,17 @@ namespace legacytictactoe
             return new Random((int) DateTime.Now.Ticks & 0x0000FFFF).NextDouble() < 0.5;
         }
 
-        private void ReadPlayerAMove()
+        private void AddPlayerAMove(string move)
         {
             outStream.Write("player A:");
-            a = int.Parse(inputStream.ReadLine());
+            var a = int.Parse(move);
             tab[a] = 'x';
         }
 
-        private void ReadPlayerBMove()
+        private void AddPlayerBMove(string move)
         {
             outStream.Write("player B:");
-            a = int.Parse(inputStream.ReadLine());
+            var a = int.Parse(move);
             tab[a] = 'o';
         }
 
