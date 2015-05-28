@@ -16,11 +16,11 @@ namespace legacytictactoe
 				for (i = 1; i <= 9; i++) {
 					if (i % 2 != 0) {
 						Console.Write("player A:");
-						a = int.Parse(Console.ReadLine());
+						a = int.Parse(Console.In.ReadLine());
 						tab[a] = 'x';
 					} else {
 						Console.Write("player B:");
-						a = int.Parse(Console.ReadLine());
+						a = int.Parse(Console.In.ReadLine());
 						tab[a] = 'o';
 					}
 				}
@@ -30,11 +30,11 @@ namespace legacytictactoe
 				for (i = 1; i <= 9; i++) {
 					if (i % 2 != 0) {
 						Console.Write("player B:");
-						a = int.Parse(Console.ReadLine());
+						a = int.Parse(Console.In.ReadLine());
 						tab[a] = 'o';
 					} else {
 						Console.Write("player A:");
-						a = int.Parse(Console.ReadLine());
+						a = int.Parse(Console.In.ReadLine());
 						tab[a] = 'x';
 					}
 				}
