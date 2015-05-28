@@ -9,9 +9,9 @@ namespace legacytictactoe
 		public char[] tab = new char[10];
 	    private TextReader textReader;
 
-	    public Tic()
+	    public Tic(TextReader reader)
 	    {
-	        textReader = Console.In;
+	        textReader = reader;
 	    }
 
 	    public void choice(){
