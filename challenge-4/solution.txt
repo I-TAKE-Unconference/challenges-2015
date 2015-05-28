@@ -1,0 +1,254 @@
+Code Smell #0
+Name: Primitive Obession (use of Strings instead of DateTime)
+Location: 18
+Fragment:
+----------
+_holidays = dateListToStringList(holidays);
+----------
+
+Code Smell #1
+Name: Method too big
+Location: 22
+Fragment:
+----------
+        public double getElapsedMinutes(DateTime startDate, DateTime endDate)
+        {
+            if (_openHours.StartHour == 0 || _openHours.EndHour == 0)
+                throw new InvalidOperationException("Open hours cannot be started with zero hours or ended with zero hours");
+
+            int hour = startDate.Hour;
+            int minute = startDate.Minute;
+            if (hour == 0 && minute == 0)
+            {
+                startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+            }
+            hour = endDate.Hour;
+            minute = endDate.Minute;
+            if (hour == 0 && minute == 0)
+            {
+                endDate = DateTime.Parse(string.Format("{0} {1}:{2}", endDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+            }
+
+            startDate = nextOpenDay(startDate);
+            endDate = prevOpenDay(endDate);
+
+
+            if (startDate > endDate)
+                return 0;
+
+            if (startDate.ToString(DateFormat).Equals(endDate.ToString(DateFormat)))
+            {
+                if (!isWorkingDay(startDate))
+                    return 0;
+
+                if (startDate.DayOfWeek == DayOfWeek.Saturday || startDate.DayOfWeek == DayOfWeek.Sunday ||
+                    _holidays.Contains(startDate.ToString(DateFormat)))
+                    return 0;
+
+                if (isDateBeforeOpenHours(startDate))
+                {
+                    startDate = getStartOfDay(startDate);
+                }
+                if (isDateAfterOpenHours(endDate))
+                {
+                    endDate = getEndOfDay(endDate);
+                }
+                var endminutes = (endDate.Hour * 60) + endDate.Minute;
+                var startminutes = (startDate.Hour * 60) + startDate.Minute;
+
+                return endminutes - startminutes;
+
+            }
+
+            var endOfDay = getEndOfDay(startDate);
+            var startOfDay = getStartOfDay(endDate);
+            var usedMinutesinEndDate = endDate.Subtract(startOfDay).TotalMinutes;
+            var usedMinutesinStartDate = endOfDay.Subtract(startDate).TotalMinutes;
+            var tempStartDate = startDate.AddDays(1);
+            var workingHoursInMinutes = (_openHours.EndHour - _openHours.StartHour) * 60;
+            var totalUsedMinutes = usedMinutesinEndDate + usedMinutesinStartDate;
+
+            for (DateTime day = tempStartDate.Date; day < endDate.Date; day = day.AddDays(1.0))
+            {
+                if (isWorkingDay(day))
+                {
+                    totalUsedMinutes += workingHoursInMinutes;
+                }
+            }
+
+            return totalUsedMinutes;
+        }
+----------
+
+Code Smell #2
+Name: Code duplication
+Location: 24 & 94
+Fragment:
+----------
+if (_openHours.StartHour == 0 || _openHours.EndHour == 0)
+    throw new InvalidOperationException("Open hours cannot be started with zero hours or ended with zero hours");
+----------
+
+Code Smell #3
+Name: (Hidden) switch statement/too many conditionnals
+Location: 128
+Fragment:
+----------
+            if (_holidays.Contains(endDate.ToString(DateFormat)))
+            {
+                return prevOpenDayAfterHoliday(endDate);
+            }
+            if (endDate.DayOfWeek == DayOfWeek.Saturday)
+            {
+                return prevOpenDayAfterHoliday(endDate);
+            }
+            if (endDate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return prevOpenDayAfterHoliday(endDate);
+            }
+            if (isDateBeforeOpenHours(endDate))
+            {
+                return getStartOfDay(endDate);
+            }
+            if (isDateAfterOpenHours(endDate))
+            {
+                return getEndOfDay(endDate);
+            }
+            return endDate;
+----------
+
+Code Smell #4
+Name: Single Responsibility Principle Violation (the class deals with relations between fixed dates and dates finding)
+Location: 220
+Fragment:
+----------
+private DateTime getStartOfDay(DateTime nextDate)
+{
+    return DateTime.Parse(string.Format("{0} {1}:{2}", nextDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+}
+
+private DateTime getEndOfDay(DateTime startDate)
+{
+    return DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+}
+
+private bool isDateBeforeOpenHours(DateTime startDate)
+{
+    return startDate.Hour < _openHours.StartHour || (startDate.Hour == _openHours.StartHour && startDate.Minute < _openHours.StartMinute);
+}
+private bool isDateAfterOpenHours(DateTime startDate)
+{
+    return startDate.Hour > _openHours.EndHour || (startDate.Hour == _openHours.EndHour && startDate.Minute > _openHours.EndMinute);
+}
+----------
+
+Code Smell #5
+Name: Message Chain/ Law of Demeter violation
+Location: 98
+Fragment:
+----------
+var minutesLeft = (int)endOfDay.Subtract(date).TotalMinutes;
+----------
+
+Code Smell #6
+Name: Misplaced responsability
+Location: 56
+Fragment:
+----------
+if (isDateBeforeOpenHours(startDate))
+{
+    startDate = getStartOfDay(startDate);
+}
+----------
+
+Code Smell #7
+Name: Inappropriate intimacy
+Location: 73
+Fragment:
+----------
+var usedMinutesinEndDate = endDate.Subtract(startOfDay).TotalMinutes;
+----------
+
+Code Smell #8
+Name: Variable name same as type
+Location: 79
+Fragment:
+----------
+for (DateTime day = tempStartDate.Date; day < endDate.Date; day = day.AddDays(1.0))
+----------
+
+Code Smell #9
+Name: Too many private methods
+Location: 120
+Fragment:
+----------
+        private List<string> dateListToStringList(IEnumerable<DateTime> dates)
+        private DateTime prevOpenDay(DateTime endDate)
+        private bool isWorkingDay(DateTime date)
+        private DateTime nextOpenDay(DateTime startDate)
+        private DateTime nextOpenDayAfterHoliday(DateTime holiday)
+        private DateTime prevOpenDayAfterHoliday(DateTime holiday)
+        private DateTime getStartOfDay(DateTime nextDate)
+        private DateTime getEndOfDay(DateTime startDate)
+        private bool isDateBeforeOpenHours(DateTime startDate)
+        private bool isDateAfterOpenHours(DateTime startDate)
+----------
+
+Code Smell #10
+Name: Same name different meaning
+Location: 96
+Fragment:
+----------
+date = nextOpenDay(date);
+var endOfDay = getEndOfDay(date);
+var minutesLeft = (int)endOfDay.Subtract(date).TotalMinutes;
+
+if (minutesLeft < minutes)
+{
+    date = nextOpenDay(endOfDay.AddMinutes(1));
+    date = nextOpenDay(date);
+    minutes -= minutesLeft;
+}
+var workingHoursInMinutes = (_openHours.EndHour - _openHours.StartHour) * 60;
+while (minutes > workingHoursInMinutes)
+{
+    date = getStartOfDay(date.AddDays(1));
+    date = nextOpenDay(date);
+    minutes -= workingHoursInMinutes;
+}
+----------
+
+Code Smell #11
+Name: Arrow antipattern
+Location: 162
+Fragment:
+----------
+if (_holidays.Contains(startDate.ToString(DateFormat)))
+{
+    return nextOpenDayAfterHoliday(startDate);
+}
+if (startDate.DayOfWeek == DayOfWeek.Saturday)
+{
+    return nextOpenDayAfterHoliday(startDate);
+}
+if (startDate.DayOfWeek == DayOfWeek.Sunday)
+{
+    return nextOpenDayAfterHoliday(startDate);
+}
+if (isDateBeforeOpenHours(startDate))
+{
+    return getStartOfDay(startDate);
+}
+if (isDateAfterOpenHours(startDate))
+{
+
+    var nextDate = startDate.AddDays(1);
+
+    if (_holidays.Contains(nextDate.ToString(DateFormat)))
+    {
+        return nextOpenDayAfterHoliday(nextDate);
+    }
+    return getStartOfDay(nextDate);
+}
+return startDate;
+----------
