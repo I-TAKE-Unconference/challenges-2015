@@ -38,6 +38,19 @@ namespace TicTacToe.Tests
                     .WriteLine(Arg.Is((string str) => str.Contains("the winner is")));
                 outputStream.Write(Arg.Any<string>());
             }
+            [Test]
+            public void NoOneWins_ForSameRepeatedPosition()
+            {
+                var sut = CreateSUT();
+                inputStream.ReadLine().Returns("1", "1", "1", "1", "1", "1", "1", "1", "1");
+
+                sut.eval();
+                outputStream.Received(0)
+                    .WriteLine(Arg.Is((string str) => str.Contains("the winner is")));
+                outputStream.Write(Arg.Any<string>());
+            }
+
+
         }
 
         [TestFixture]
