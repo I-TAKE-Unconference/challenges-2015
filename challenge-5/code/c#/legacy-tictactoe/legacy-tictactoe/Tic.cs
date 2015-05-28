@@ -17,25 +17,23 @@ namespace legacytictactoe
 
         private void Choice()
         {
-            var firstPlayer = IsAFirstPlayer() ? Player.A : Player.B;
-            var secondPlayer = IsAFirstPlayer() ? Player.B : Player.A;
+            var isFirstPlayerA = IsFirstPlayerA();
+            var firstPlayer = isFirstPlayerA ? Player.A : Player.B;
+            var secondPlayer = isFirstPlayerA ? Player.B : Player.A;
+            for (var i = 1; i <= 9; i++)
             {
-                for (var i = 1; i <= 9; i++)
+                if (i%2 != 0)
                 {
-                    if (i%2 != 0)
-                    {
-                        AddPlayerMove(firstPlayer, inputStream.ReadLine());
-                    }
-                    else
-                    {
-                        AddPlayerMove(secondPlayer, inputStream.ReadLine());
-                    }
+                    AddPlayerMove(firstPlayer, inputStream.ReadLine());
+                }
+                else
+                {
+                    AddPlayerMove(secondPlayer, inputStream.ReadLine());
                 }
             }
-            
         }
 
-        private static bool IsAFirstPlayer()
+        private static bool IsFirstPlayerA()
         {
             return new Random((int) DateTime.Now.Ticks & 0x0000FFFF).NextDouble() < 0.5;
         }
