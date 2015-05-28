@@ -17,28 +17,12 @@ namespace TicTacToe
             try
             {
                 ticTacToeGame.Evaluate();
-                outputStream.Write(GetBoardText(ticTacToeGame));
+                outputStream.Write(ticTacToeGame.Board.ToString());
             }
             catch (IOException exc)
             {
                 outputStream.WriteLine(exc.StackTrace);
             }
-        }
-
-        private static string GetBoardText(TicTacToeGame ticTacToeGame)
-        {
-            var stringBuilder = new StringBuilder();
-            for (var i = 1; i <= 9; i++)
-            {
-                var move = ticTacToeGame.Board.GetMoveAtPosition(i);
-                stringBuilder.Append(move);
-                if (i == 3 || i == 6 || i == 9)
-                {
-                    stringBuilder.Append("\n");
-                }
-            }
-            var boardText = stringBuilder.ToString();
-            return boardText;
         }
     }
 }

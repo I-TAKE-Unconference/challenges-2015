@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace TicTacToe
 {
@@ -25,9 +26,18 @@ namespace TicTacToe
         }
 
 
-        public char GetMoveAtPosition(int position)
+        public override string ToString()
         {
-            return board[position];
+            var stringBuilder = new StringBuilder();
+            for (var i = 1; i <= 9; i++)
+            {
+                stringBuilder.Append(board[i]);
+                if (i%3 == 0)
+                {
+                    stringBuilder.Append("\n");
+                }
+            }
+            return stringBuilder.ToString();
         }
     }
 }
