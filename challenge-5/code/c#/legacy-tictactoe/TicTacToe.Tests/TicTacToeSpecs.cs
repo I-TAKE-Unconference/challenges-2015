@@ -212,7 +212,7 @@ namespace TicTacToe.Tests
                         .SelectMany(call => call.GetArguments())
                         .Select(a => a.ToString())
                         .ToArray());
-                (allWrites.Contains("oxo\noxx\noxo") || allWrites.Contains("xox\nxoo\nxox")).Should().BeTrue();
+                (allWrites.Contains("oxo\noxx\noxo") || allWrites.Contains("xox\nxoo\nxox")).Should().BeTrue("all output does not contain expected board layout:"+allWrites);
             }
         }
     }
