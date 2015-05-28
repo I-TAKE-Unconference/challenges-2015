@@ -1,0 +1,10 @@
+line 20, 23, 34, 38:
+If the user enters a negative number or above 9 there will be an index out of range exception.
+Should validate if 'a' is in [1..9].
+If the user enters a position that was already marked the program will incorrectly allow that.
+Should first check that the spot is empty.
+
+line 45:
+choice() should not be called from eval().
+First, because it doesn't work correctly because it doesn't stop the game if either player manages to obtain a winner combination.
+Secondly, because eval() shouldn't be reponsible for making the choice, that seems like a side-effect of the method.
