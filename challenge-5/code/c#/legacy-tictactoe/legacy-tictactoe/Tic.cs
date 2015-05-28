@@ -6,7 +6,7 @@ namespace legacytictactoe
 	public class Tic
 	{
 		int i, a;
-		public char[] tab = new char[10];
+	    public char[] tab = new char[10];
 	    private TextReader inputStream;
 	    private TextWriter outStream;
 
@@ -16,7 +16,7 @@ namespace legacytictactoe
 	        outStream = output;
 	    }
 
-	    public void choice(){
+	    private void Choice(){
 			double tirage = 0;
 			Random random = new Random((int) DateTime.Now.Ticks & 0x0000FFFF);
 			tirage = random.NextDouble();
@@ -51,29 +51,27 @@ namespace legacytictactoe
 			}
 		}
 
-		public void eval() {
-			choice();
-			if ((tab[1] == 'x') && (tab[2] == 'x') && (tab[3] == 'x') ||
-			    (tab[4] == 'x') && (tab[5] == 'x') && (tab[6] == 'x') ||
-			    (tab[7] == 'x') && (tab[8] == 'x') && (tab[9] == 'x') ||
-			    (tab[1] == 'x') && (tab[4] == 'x') && (tab[7] == 'x') ||
-			    (tab[2] == 'x') && (tab[5] == 'x') && (tab[8] == 'x') ||
-			    (tab[3] == 'x') && (tab[6] == 'x') && (tab[9] == 'x') ||
-			    (tab[1] == 'x') && (tab[5] == 'x') && (tab[9] == 'x') ||
-			    (tab[3] == 'x') && (tab[5] == 'x') && (tab[7] == 'x'))
+		public void Evaluate() {
+			Choice();
+			if (HasPlayerWon('x'))
 
 				outStream.WriteLine("\nthe winner is : player A\n");
 
-			if ((tab[1] == 'o') && (tab[2] == 'o') && (tab[3] == 'o') ||
-			    (tab[4] == 'o') && (tab[5] == 'o') && (tab[6] == 'o') ||
-			    (tab[7] == 'o') && (tab[8] == 'o') && (tab[9] == 'o') ||
-			    (tab[1] == 'o') && (tab[4] == 'o') && (tab[7] == 'o') ||
-			    (tab[2] == 'o') && (tab[5] == 'o') && (tab[8] == 'o') ||
-			    (tab[3] == 'o') && (tab[6] == 'o') && (tab[9] == 'o') ||
-			    (tab[1] == 'o') && (tab[5] == 'o') && (tab[9] == 'o') ||
-			    (tab[3] == 'o') && (tab[5] == 'o') && (tab[7] == 'o'))
+			if (HasPlayerWon('o'))
 
 				outStream.WriteLine("\nthe winner is : player B\n");
 		}
+
+	    private bool HasPlayerWon(char playerToken)
+	    {
+	        return (tab[1] == playerToken) && (tab[2] == playerToken) && (tab[3] == playerToken) ||
+	               (tab[4] == playerToken) && (tab[5] == playerToken) && (tab[6] == playerToken) ||
+	               (tab[7] == playerToken) && (tab[8] == playerToken) && (tab[9] == playerToken) ||
+	               (tab[1] == playerToken) && (tab[4] == playerToken) && (tab[7] == playerToken) ||
+	               (tab[2] == playerToken) && (tab[5] == playerToken) && (tab[8] == playerToken) ||
+	               (tab[3] == playerToken) && (tab[6] == playerToken) && (tab[9] == playerToken) ||
+	               (tab[1] == playerToken) && (tab[5] == playerToken) && (tab[9] == playerToken) ||
+	               (tab[3] == playerToken) && (tab[5] == playerToken) && (tab[7] == playerToken);
+	    }
 	}
 }

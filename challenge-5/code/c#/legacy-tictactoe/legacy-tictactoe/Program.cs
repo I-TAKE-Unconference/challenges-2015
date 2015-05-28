@@ -9,7 +9,7 @@ namespace legacytictactoe
 		{
 			Tic tic = new Tic(Console.In, Console.Out);
 			try {
-				tic.eval();
+				tic.Evaluate();
 				for (int i = 1; i <= 9; i++) {
 					Console.Write(tic.tab[i]);
 					if (i == 3 || i == 6 || i == 9)
