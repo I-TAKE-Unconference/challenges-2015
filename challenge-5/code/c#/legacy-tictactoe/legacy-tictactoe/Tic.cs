@@ -24,10 +24,12 @@ namespace legacytictactoe
             {
                 if (i%2 != 0)
                 {
+                    outStream.Write(firstPlayer.ToString());
                     AddPlayerMove(firstPlayer, inputStream.ReadLine());
                 }
                 else
                 {
+                    outStream.Write(secondPlayer.ToString());
                     AddPlayerMove(secondPlayer, inputStream.ReadLine());
                 }
             }
@@ -40,7 +42,6 @@ namespace legacytictactoe
 
         private void AddPlayerMove(Player player, string move)
         {
-            outStream.Write(player.ToString());
             var position = int.Parse(move);
             tab[position] = player.Token;
         }
