@@ -1,0 +1,19 @@
+line 22: long method body
+getElapsedMinutes()
+{ ... }
+
+line 31, 37, 222, 227: duplicated code
+startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+
+line 130, 134, 138: somewhat duplicated code in 'if' conditions between prevOpenDay() and nextOpenDay().
+if (_holidays.Contains(endDate.ToString(DateFormat)))
+if (endDate.DayOfWeek == DayOfWeek.Saturday)
+if (endDate.DayOfWeek == DayOfWeek.Sunday)
+
+line 8: large class
+public class Calculation
+{ ... }
+
+line 120: type embedded in method name
+private List<string> dateListToStringList(IEnumerable<DateTime> dates)
+
