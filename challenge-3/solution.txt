@@ -1,6 +1,8 @@
 line 20, 23, 34, 38:
 If the user enters a negative number or above 9 there will be an index out of range exception.
 Should validate if 'a' is in [1..9].
+If the user enters a position that was already marked the program will incorrectly allow that.
+Should first check that the spot is empty.
 
 line 45:
 choice() should not be called from eval().
