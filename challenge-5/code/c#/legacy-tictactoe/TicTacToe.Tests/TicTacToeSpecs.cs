@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using legacytictactoe;
 using NSubstitute;
@@ -32,6 +33,11 @@ namespace TicTacToe.Tests
                 var firstPlayerText = outputStream.ReceivedCalls().First().GetArguments().First().ToString();
                 return firstPlayerText[firstPlayerText.Length - 2];
             }
+            private string WinningPlayerMessage()
+            {
+                return string.Format("\nthe winner is : player {0}\n", GetFirstPlayerName());
+            }
+
 
             [Test]
             public void LeftToRightDiagonal()
@@ -41,7 +47,7 @@ namespace TicTacToe.Tests
 
                 sut.eval();
                 outputStream.Received()
-                    .WriteLine(Arg.Is((string str) => str.Contains("the winner is : player " + GetFirstPlayerName())));
+                    .WriteLine(Arg.Is((string str) => str.Equals(WinningPlayerMessage())));
                 outputStream.Write(Arg.Any<string>());
             }
 
@@ -52,7 +58,7 @@ namespace TicTacToe.Tests
                 inputStream.ReadLine().Returns("3", "2", "5", "1", "7", "9", "4", "6", "8");
                 sut.eval();
                 outputStream.Received()
-                    .WriteLine(Arg.Is((string str) => str.Contains("the winner is : player " + GetFirstPlayerName())));
+                    .WriteLine(Arg.Is((string str) => str.Equals(WinningPlayerMessage())));
             }
 
             [Test]
@@ -62,7 +68,7 @@ namespace TicTacToe.Tests
                 inputStream.ReadLine().Returns("1", "4", "2", "6", "3", "5", "9", "7", "8");
                 sut.eval();
                 outputStream.Received()
-                    .WriteLine(Arg.Is((string str) => str.Contains("the winner is : player " + GetFirstPlayerName())));
+                    .WriteLine(Arg.Is((string str) => str.Equals(WinningPlayerMessage())));
             }
         }
 
@@ -82,6 +88,11 @@ namespace TicTacToe.Tests
                 return firstPlayerText[firstPlayerText.Length - 2];
             }
 
+            private string WinningPlayerMessage()
+            {
+                return string.Format("\nthe winner is : player {0}\n" , GetSecondPlayerName());
+            }
+
             [Test]
             public void LeftToRightDiagonal()
             {
@@ -89,7 +100,7 @@ namespace TicTacToe.Tests
                 inputStream.ReadLine().Returns("8", "1", "3", "5", "6", "9", "2", "4", "7");
                 sut.eval();
                 outputStream.Received()
-                    .WriteLine(Arg.Is((string str) => str.Contains("the winner is : player " + GetSecondPlayerName())));
+                    .WriteLine(Arg.Is((string str) => str.Equals(WinningPlayerMessage())));
             }
 
             [Test]
@@ -99,7 +110,7 @@ namespace TicTacToe.Tests
                 inputStream.ReadLine().Returns("8", "3", "2", "5", "1", "7", "9", "4", "6", "8");
                 sut.eval();
                 outputStream.Received()
-                    .WriteLine(Arg.Is((string str) => str.Contains("the winner is : player " + GetSecondPlayerName())));
+                    .WriteLine(Arg.Is((string str) => str.Equals(WinningPlayerMessage())));
             }
 
             [Test]
@@ -108,8 +119,9 @@ namespace TicTacToe.Tests
                 var sut = CreateSUT();
                 inputStream.ReadLine().Returns("8", "1", "4", "2", "6", "3", "5", "9", "7", "8");
                 sut.eval();
-                outputStream.Received()
-                    .WriteLine(Arg.Is((string str) => str.Contains("the winner is : player " + GetSecondPlayerName())));
+                outputStream.Received(1)
+                    .WriteLine(Arg.Is((string str) => str.Equals(WinningPlayerMessage())));
+                Console.Out.WriteLine("WinningPlayerMessage = {0}", WinningPlayerMessage());
             }
         }
     }
