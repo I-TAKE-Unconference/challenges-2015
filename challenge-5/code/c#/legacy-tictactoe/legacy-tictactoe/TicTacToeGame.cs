@@ -1,15 +1,15 @@
 using System;
 using System.IO;
 
-namespace legacytictactoe
+namespace TicTacToe
 {
-    public class Tic
+    public class TicTacToeGame
     {
         private readonly TextReader inputStream;
         private readonly TextWriter outStream;
         private readonly Board board;
 
-        public Tic(TextReader input, TextWriter output)
+        public TicTacToeGame(TextReader input, TextWriter output)
         {
             inputStream = input;
             outStream = output;

@@ -1,6 +1,6 @@
 using System;
 
-namespace legacytictactoe
+namespace TicTacToe
 {
     public class Board
     {

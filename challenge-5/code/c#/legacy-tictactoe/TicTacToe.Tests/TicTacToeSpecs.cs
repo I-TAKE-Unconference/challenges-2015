@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using legacytictactoe;
+using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -12,21 +12,22 @@ namespace TicTacToe.Tests
         private TextWriter outputStream;
         private TextReader inputStream;
 
-        public Tic CreateSUT()
+        public TicTacToeGame CreateSUT()
         {
-            return new Tic(inputStream, outputStream);
+            return new TicTacToeGame(inputStream, outputStream);
         }
+
+        [SetUp]
+        public virtual void SetUp()
+        {
+            inputStream = Substitute.For<TextReader>();
+            outputStream = Substitute.For<TextWriter>();
+        }
+
 
         [TestFixture]
         public class WrongInput : TicTacToeSpecs
         {
-            [SetUp]
-            public virtual void SetUp()
-            {
-                inputStream = Substitute.For<TextReader>();
-                outputStream = Substitute.For<TextWriter>();
-            }
-
             [Test]
             [ExpectedException(typeof (FormatException))]
             public void FailsForLetters()
@@ -81,13 +82,6 @@ namespace TicTacToe.Tests
         [TestFixture]
         public class GameIsADraw : TicTacToeSpecs
         {
-            [SetUp]
-            public virtual void SetUp()
-            {
-                inputStream = Substitute.For<TextReader>();
-                outputStream = Substitute.For<TextWriter>();
-            }
-
             [Test]
             public void NoOneWins()
             {
@@ -112,13 +106,6 @@ namespace TicTacToe.Tests
         [TestFixture]
         public class FirstPlayerWins : TicTacToeSpecs
         {
-            [SetUp]
-            public virtual void SetUp()
-            {
-                inputStream = Substitute.For<TextReader>();
-                outputStream = Substitute.For<TextWriter>();
-            }
-
             private object GetFirstPlayerName()
             {
                 var firstPlayerText = outputStream.ReceivedCalls().First().GetArguments().First().ToString();
@@ -163,13 +150,6 @@ namespace TicTacToe.Tests
         [TestFixture]
         public class SecondPlayerWins : TicTacToeSpecs
         {
-            [SetUp]
-            public virtual void SetUp()
-            {
-                inputStream = Substitute.For<TextReader>();
-                outputStream = Substitute.For<TextWriter>();
-            }
-
             private object GetSecondPlayerName()
             {
                 var firstPlayerText = outputStream.ReceivedCalls().Skip(1).First().GetArguments().First().ToString();
@@ -194,7 +174,7 @@ namespace TicTacToe.Tests
             public void RightToLeftDiagonal()
             {
                 var sut = CreateSUT();
-                inputStream.ReadLine().Returns("8", "3", "2", "5", "1", "7", "9", "4", "6", "8");
+                inputStream.ReadLine().Returns("8", "3", "2", "5", "1", "7", "9", "4", "6");
                 sut.Evaluate();
                 outputStream.Received().WriteLine(Arg.Is((string str) => str.Equals(WinningPlayerMessage())));
             }
@@ -203,10 +183,36 @@ namespace TicTacToe.Tests
             public void LeftToRightFirstLine()
             {
                 var sut = CreateSUT();
-                inputStream.ReadLine().Returns("8", "1", "4", "2", "6", "3", "5", "9", "7", "8");
+                inputStream.ReadLine().Returns("8", "1", "4", "2", "6", "3", "5", "9", "7");
                 sut.Evaluate();
                 outputStream.Received(1).WriteLine(Arg.Is((string str) => str.Equals(WinningPlayerMessage())));
-                Console.Out.WriteLine("WinningPlayerMessage = {0}", WinningPlayerMessage());
+            }
+        }
+
+        [TestFixture]
+        public class GameLayout
+        {
+            private TextReader inputStream;
+            private TextWriter outputStream;
+
+            [SetUp]
+            public virtual void SetUp()
+            {
+                inputStream = Substitute.For<TextReader>();
+                outputStream = Substitute.For<TextWriter>();
+            }
+
+            [Test]
+            public void WritesBoard()
+            {
+                inputStream.ReadLine().Returns("1", "2", "4", "5", "7", "8", "3", "6", "9");
+                MainClass.RunGame(inputStream, outputStream);
+                var allWrites = string.Join("",
+                    outputStream.ReceivedCalls()
+                        .SelectMany(call => call.GetArguments())
+                        .Select(a => a.ToString())
+                        .ToArray());
+                (allWrites.Contains("oxo\noxx\noxo") || allWrites.Contains("xox\nxoo\nxox")).Should().BeTrue();
             }
         }
     }
