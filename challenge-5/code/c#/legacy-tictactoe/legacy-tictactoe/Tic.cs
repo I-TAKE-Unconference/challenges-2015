@@ -59,7 +59,7 @@ namespace legacytictactoe
 			    (tab[1] == 'x') && (tab[5] == 'x') && (tab[9] == 'x') ||
 			    (tab[3] == 'x') && (tab[5] == 'x') && (tab[7] == 'x'))
 
-				Console.WriteLine("\nthe winner is : player A\n");
+				Console.Out.WriteLine("\nthe winner is : player A\n");
 
 			if ((tab[1] == 'o') && (tab[2] == 'o') && (tab[3] == 'o') ||
 			    (tab[4] == 'o') && (tab[5] == 'o') && (tab[6] == 'o') ||
@@ -70,7 +70,7 @@ namespace legacytictactoe
 			    (tab[1] == 'o') && (tab[5] == 'o') && (tab[9] == 'o') ||
 			    (tab[3] == 'o') && (tab[5] == 'o') && (tab[7] == 'o'))
 
-				Console.WriteLine("\nthe winner is : player B\n");
+				Console.Out.WriteLine("\nthe winner is : player B\n");
 		}
 	}
 }
