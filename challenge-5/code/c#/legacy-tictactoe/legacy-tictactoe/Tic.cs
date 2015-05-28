@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 namespace legacytictactoe
 {
@@ -6,8 +7,14 @@ namespace legacytictactoe
 	{
 		int i, a;
 		public char[] tab = new char[10];
+	    private TextReader textReader;
 
-		public void choice(){
+	    public Tic()
+	    {
+	        textReader = Console.In;
+	    }
+
+	    public void choice(){
 			double tirage = 0;
 			Random random = new Random((int) DateTime.Now.Ticks & 0x0000FFFF);
 			tirage = random.NextDouble();
@@ -16,11 +23,11 @@ namespace legacytictactoe
 				for (i = 1; i <= 9; i++) {
 					if (i % 2 != 0) {
 						Console.Write("player A:");
-						a = int.Parse(Console.In.ReadLine());
+						a = int.Parse(textReader.ReadLine());
 						tab[a] = 'x';
 					} else {
 						Console.Write("player B:");
-						a = int.Parse(Console.In.ReadLine());
+						a = int.Parse(textReader.ReadLine());
 						tab[a] = 'o';
 					}
 				}
@@ -30,11 +37,11 @@ namespace legacytictactoe
 				for (i = 1; i <= 9; i++) {
 					if (i % 2 != 0) {
 						Console.Write("player B:");
-						a = int.Parse(Console.In.ReadLine());
+						a = int.Parse(textReader.ReadLine());
 						tab[a] = 'o';
 					} else {
 						Console.Write("player A:");
-						a = int.Parse(Console.In.ReadLine());
+						a = int.Parse(textReader.ReadLine());
 						tab[a] = 'x';
 					}
 				}
