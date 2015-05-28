@@ -22,7 +22,7 @@ namespace legacytictactoe
             var random = new Random((int) DateTime.Now.Ticks & 0x0000FFFF);
             tirage = random.NextDouble();
 
-            if (tirage < 0.5)
+            if (IsAFirstPlayer(tirage))
             {
                 for (i = 1; i <= 9; i++)
                 {
@@ -36,21 +36,25 @@ namespace legacytictactoe
                     }
                 }
             }
+            else
+            {
+                for (i = 1; i <= 9; i++)
+                {
+                    if (i%2 != 0)
+                    {
+                        ReadPlayerBMove();
+                    }
+                    else
+                    {
+                        ReadPlayerAMove();
+                    }
+                }
+            }
+        }
 
-            if (tirage >= 0.5)
-            {
-                for (i = 1; i <= 9; i++)
-                {
-                    if (i%2 != 0)
-                    {
-                        ReadPlayerBMove();
-                    }
-                    else
-                    {
-                        ReadPlayerAMove();
-                    }
-                }
-            }
+        private static bool IsAFirstPlayer(double tirage)
+        {
+            return tirage < 0.5;
         }
 
         private void ReadPlayerAMove()
