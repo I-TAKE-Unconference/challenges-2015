@@ -18,11 +18,7 @@ namespace legacytictactoe
 
         private void Choice()
         {
-            double tirage = 0;
-            var random = new Random((int) DateTime.Now.Ticks & 0x0000FFFF);
-            tirage = random.NextDouble();
-
-            if (IsAFirstPlayer(tirage))
+            if (IsAFirstPlayer())
             {
                 for (i = 1; i <= 9; i++)
                 {
@@ -52,9 +48,9 @@ namespace legacytictactoe
             }
         }
 
-        private static bool IsAFirstPlayer(double tirage)
+        private static bool IsAFirstPlayer()
         {
-            return tirage < 0.5;
+            return new Random((int) DateTime.Now.Ticks & 0x0000FFFF).NextDouble() < 0.5;
         }
 
         private void ReadPlayerAMove()
