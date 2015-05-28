@@ -7,11 +7,13 @@ namespace legacytictactoe
 	{
 		int i, a;
 		public char[] tab = new char[10];
-	    private TextReader textReader;
+	    private TextReader inputStream;
+	    private TextWriter outStream;
 
-	    public Tic(TextReader reader)
+	    public Tic(TextReader input, TextWriter output)
 	    {
-	        textReader = reader;
+	        inputStream = input;
+	        outStream = output;
 	    }
 
 	    public void choice(){
@@ -23,11 +25,11 @@ namespace legacytictactoe
 				for (i = 1; i <= 9; i++) {
 					if (i % 2 != 0) {
 						Console.Write("player A:");
-						a = int.Parse(textReader.ReadLine());
+						a = int.Parse(inputStream.ReadLine());
 						tab[a] = 'x';
 					} else {
 						Console.Write("player B:");
-						a = int.Parse(textReader.ReadLine());
+						a = int.Parse(inputStream.ReadLine());
 						tab[a] = 'o';
 					}
 				}
@@ -37,11 +39,11 @@ namespace legacytictactoe
 				for (i = 1; i <= 9; i++) {
 					if (i % 2 != 0) {
 						Console.Write("player B:");
-						a = int.Parse(textReader.ReadLine());
+						a = int.Parse(inputStream.ReadLine());
 						tab[a] = 'o';
 					} else {
 						Console.Write("player A:");
-						a = int.Parse(textReader.ReadLine());
+						a = int.Parse(inputStream.ReadLine());
 						tab[a] = 'x';
 					}
 				}
@@ -59,7 +61,7 @@ namespace legacytictactoe
 			    (tab[1] == 'x') && (tab[5] == 'x') && (tab[9] == 'x') ||
 			    (tab[3] == 'x') && (tab[5] == 'x') && (tab[7] == 'x'))
 
-				Console.Out.WriteLine("\nthe winner is : player A\n");
+				outStream.WriteLine("\nthe winner is : player A\n");
 
 			if ((tab[1] == 'o') && (tab[2] == 'o') && (tab[3] == 'o') ||
 			    (tab[4] == 'o') && (tab[5] == 'o') && (tab[6] == 'o') ||
@@ -70,7 +72,7 @@ namespace legacytictactoe
 			    (tab[1] == 'o') && (tab[5] == 'o') && (tab[9] == 'o') ||
 			    (tab[3] == 'o') && (tab[5] == 'o') && (tab[7] == 'o'))
 
-				Console.Out.WriteLine("\nthe winner is : player B\n");
+				outStream.WriteLine("\nthe winner is : player B\n");
 		}
 	}
 }

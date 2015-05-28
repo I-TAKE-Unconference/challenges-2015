@@ -7,7 +7,7 @@ namespace legacytictactoe
 	{
 		public static void Main (string[] args)
 		{
-			Tic tic = new Tic(Console.In);
+			Tic tic = new Tic(Console.In, Console.Out);
 			try {
 				tic.eval();
 				for (int i = 1; i <= 9; i++) {
