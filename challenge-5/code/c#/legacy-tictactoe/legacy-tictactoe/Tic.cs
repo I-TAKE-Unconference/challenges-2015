@@ -54,16 +54,18 @@ namespace legacytictactoe
 
         private void AddPlayerAMove(string move)
         {
-            outStream.Write("player A:");
-            var a = int.Parse(move);
-            tab[a] = 'x';
+            var player = Player.A;
+            outStream.Write(player.ToString());
+            var position = int.Parse(move);
+            tab[position] = player.Token;
         }
 
         private void AddPlayerBMove(string move)
         {
-            outStream.Write("player B:");
-            var a = int.Parse(move);
-            tab[a] = 'o';
+            var player = Player.B;
+            outStream.Write(player.ToString());
+            var position = int.Parse(move);
+            tab[position] = player.Token;
         }
 
         public void Evaluate()
