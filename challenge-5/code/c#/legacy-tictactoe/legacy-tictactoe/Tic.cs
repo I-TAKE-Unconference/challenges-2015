@@ -22,13 +22,14 @@ namespace legacytictactoe
 			tirage = random.NextDouble();
 
 			if (tirage < 0.5) {
-				for (i = 1; i <= 9; i++) {
-					if (i % 2 != 0) {
-						Console.Write("player A:");
+				for (i = 1; i <= 9; i++)
+				{
+				    if (i % 2 != 0) {
+						outStream.Write("player A:");
 						a = int.Parse(inputStream.ReadLine());
 						tab[a] = 'x';
 					} else {
-						Console.Write("player B:");
+						outStream.Write("player B:");
 						a = int.Parse(inputStream.ReadLine());
 						tab[a] = 'o';
 					}
@@ -38,11 +39,11 @@ namespace legacytictactoe
 			if (tirage >= 0.5) {
 				for (i = 1; i <= 9; i++) {
 					if (i % 2 != 0) {
-						Console.Write("player B:");
+						outStream.Write("player B:");
 						a = int.Parse(inputStream.ReadLine());
 						tab[a] = 'o';
 					} else {
-						Console.Write("player A:");
+						outStream.Write("player A:");
 						a = int.Parse(inputStream.ReadLine());
 						tab[a] = 'x';
 					}
