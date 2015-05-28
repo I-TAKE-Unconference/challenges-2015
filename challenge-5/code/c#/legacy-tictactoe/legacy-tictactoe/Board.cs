@@ -29,17 +29,32 @@ namespace TicTacToe
             return stringBuilder.ToString();
         }
 
-        private bool HasPlayerWon(Player player)
+        private IEnumerable<char[]> GetWinningLines()
         {
-            char playerToken = player.Token;
-            return (board[1] == playerToken) && (board[2] == playerToken) && (board[3] == playerToken) ||
-                   (board[4] == playerToken) && (board[5] == playerToken) && (board[6] == playerToken) ||
-                   (board[7] == playerToken) && (board[8] == playerToken) && (board[9] == playerToken) ||
-                   (board[1] == playerToken) && (board[4] == playerToken) && (board[7] == playerToken) ||
-                   (board[2] == playerToken) && (board[5] == playerToken) && (board[8] == playerToken) ||
-                   (board[3] == playerToken) && (board[6] == playerToken) && (board[9] == playerToken) ||
-                   (board[1] == playerToken) && (board[5] == playerToken) && (board[9] == playerToken) ||
-                   (board[3] == playerToken) && (board[5] == playerToken) && (board[7] == playerToken);
+            var possibleWinners = new[]
+            {
+                new[]{1,2,3},
+                new[]{4,5,6},
+                new[]{7,8,9},
+                new[]{1,4,7},
+                new[]{2,5,8},
+                new[]{3,6,9},
+                new[]{1,5,9},
+                new[]{3,5,7}
+            };
+            foreach (var possibleWinner in possibleWinners)
+            {
+                if (board[possibleWinner[0]] == board[possibleWinner[1]] &&
+                    board[possibleWinner[1]] == board[possibleWinner[2]])
+                {
+                    yield return new[]
+                    {
+                        board[possibleWinner[0]],
+                        board[possibleWinner[1]],
+                        board[possibleWinner[2]],
+                    };
+                }
+            }
         }
 
         public IEnumerable<Player> GetWinningPlayers()
@@ -53,6 +68,20 @@ namespace TicTacToe
             {
                 yield return Player.B;
             }
+        }
+
+        private bool HasPlayerWon(Player player)
+        {
+            var playerToken = player.Token;
+            bool result = false;
+            foreach (var p in GetWinningLines())
+            {
+                if (p[0] == playerToken)
+                {
+                    result = true;
+                }
+            }
+            return result;
         }
     }
 }

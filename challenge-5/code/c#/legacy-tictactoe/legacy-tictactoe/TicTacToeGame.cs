@@ -22,6 +22,17 @@ namespace TicTacToe
             get { return board; }
         }
 
+        public void Evaluate()
+        {
+            //SRP: choice, evaluate, output
+            Choice();
+
+            foreach (var winningPlayer in Board.GetWinningPlayers())
+            {
+                outStream.WriteLine(string.Format("\nthe winner is : {0}\n", winningPlayer.ToString()));
+            }
+        }
+
         private void Choice()
         {
             var isFirstPlayerA = IsFirstPlayerA();
@@ -38,17 +49,6 @@ namespace TicTacToe
         private static bool IsFirstPlayerA()
         {
             return new Random((int) DateTime.Now.Ticks & 0x0000FFFF).NextDouble() < 0.5;
-        }
-
-        public void Evaluate()
-        {
-            //SRP: choice, evaluate, output
-            Choice();
-
-            foreach (var winningPlayer in Board.GetWinningPlayers())
-            {
-                outStream.WriteLine(string.Format("\nthe winner is : {0}\n", winningPlayer.ToString()));
-            }
         }
     }
 }
