@@ -17,6 +17,28 @@ namespace TicTacToe.Tests
             return new Tic(inputStream, outputStream);
         }
 
+        [TestFixture]
+        public class GameIsADraw:TicTacToeSpecs
+        {
+            [SetUp]
+            public virtual void SetUp()
+            {
+                inputStream = Substitute.For<TextReader>();
+                outputStream = Substitute.For<TextWriter>();
+            }
+
+            [Test]
+            public void NoOneWins()
+            {
+                var sut = CreateSUT();
+                inputStream.ReadLine().Returns("1", "3", "2", "4", "6", "5", "7", "8", "9");
+
+                sut.eval();
+                outputStream.Received(0)
+                    .WriteLine(Arg.Is((string str) => str.Contains("the winner is")));
+                outputStream.Write(Arg.Any<string>());
+            }
+        }
 
         [TestFixture]
         public class FirstPlayerWins : TicTacToeSpecs
@@ -33,6 +55,7 @@ namespace TicTacToe.Tests
                 var firstPlayerText = outputStream.ReceivedCalls().First().GetArguments().First().ToString();
                 return firstPlayerText[firstPlayerText.Length - 2];
             }
+
             private string WinningPlayerMessage()
             {
                 return string.Format("\nthe winner is : player {0}\n", GetFirstPlayerName());
