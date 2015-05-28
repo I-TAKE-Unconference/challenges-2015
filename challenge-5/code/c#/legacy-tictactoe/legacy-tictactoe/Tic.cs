@@ -22,16 +22,9 @@ namespace legacytictactoe
             var secondPlayer = isFirstPlayerA ? Player.B : Player.A;
             for (var i = 1; i <= 9; i++)
             {
-                if (i%2 != 0)
-                {
-                    outStream.Write(firstPlayer.ToString());
-                    AddPlayerMove(firstPlayer, inputStream.ReadLine());
-                }
-                else
-                {
-                    outStream.Write(secondPlayer.ToString());
-                    AddPlayerMove(secondPlayer, inputStream.ReadLine());
-                }
+                var currentPlayer = i%2 != 0 ? firstPlayer : secondPlayer;
+                outStream.Write(currentPlayer.ToString());
+                AddPlayerMove(currentPlayer, inputStream.ReadLine());
             }
         }
 
