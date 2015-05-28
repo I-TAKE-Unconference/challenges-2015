@@ -23,35 +23,47 @@ public class Tic {
     tirage = random.nextFloat();
 
     if (tirage < 0.5) {
-      for (i = 1; i <= 9; i++) {
-        if (i % 2 != 0) {
-          System.out.print("player A:");
-          a = scanner.nextInt();
-          scanner.nextLine();
-          tab[a] = PlayerA;
-        } else {
-          System.out.print("player B:");
-          a = scanner.nextInt();
-          scanner.nextLine();
-          tab[a] = PlayerB;
-        }
+      startGame(PlayerA);
+    }
+    if (tirage >= 0.5) {
+      startGame(PlayerB);
+    }
+  }
+
+  private void startGame(char firstPlayer) {
+    char secondPlayer = (firstPlayer == PlayerA) ? PlayerB : PlayerA;
+    Player first = new Player(firstPlayer), second = new Player(secondPlayer);
+
+    for (i = 1; i <= 9; i++) {
+      if (i % 2 != 0) {
+        first.nextMove();
+      } else {
+        second.nextMove();
+      }
+    }
+  }
+
+  class Player {
+    char player;
+    String message;
+
+    Player(char player) {
+      if (player == PlayerA) {
+        this.player = player;
+        this.message = "player A:";
+      } else if (player == PlayerB) {
+        this.player = player;
+        this.message = "player B:";
+      } else {
+        throw new IllegalArgumentException("Player must be " + PlayerA + " or " + PlayerB);
       }
     }
 
-    if (tirage >= 0.5) {
-      for (i = 1; i <= 9; i++) {
-        if (i % 2 != 0) {
-          System.out.print("player B:");
-          a = scanner.nextInt();
-          scanner.nextLine();
-          tab[a] = PlayerA;
-        } else {
-          System.out.print("player A:");
-          a = scanner.nextInt();
-          scanner.nextLine();
-          tab[a] = PlayerB;
-        }
-      }
+    public void nextMove() {
+      System.out.print(message);
+      a = scanner.nextInt();
+      scanner.nextLine();
+      tab[a] = player;
     }
   }
 
