@@ -11,7 +11,7 @@ namespace legacytictactoe
 			try {
 				tic.Evaluate();
 				for (int i = 1; i <= 9; i++) {
-					Console.Write(tic.tab[i]);
+					Console.Write(tic.Board.GetMoveAtPosition(i));
 					if (i == 3 || i == 6 || i == 9)
 						Console.Write("\n");
 				}
