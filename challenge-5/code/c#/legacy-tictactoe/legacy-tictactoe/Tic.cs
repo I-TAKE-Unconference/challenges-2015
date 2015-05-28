@@ -17,34 +17,22 @@ namespace legacytictactoe
 
         private void Choice()
         {
-            if (IsAFirstPlayer())
+            var firstPlayer = IsAFirstPlayer() ? Player.A : Player.B;
+            var secondPlayer = IsAFirstPlayer() ? Player.B : Player.A;
             {
                 for (var i = 1; i <= 9; i++)
                 {
                     if (i%2 != 0)
                     {
-                        AddPlayerAMove(inputStream.ReadLine());
+                        AddPlayerMove(firstPlayer, inputStream.ReadLine());
                     }
                     else
                     {
-                        AddPlayerBMove(inputStream.ReadLine());
+                        AddPlayerMove(secondPlayer, inputStream.ReadLine());
                     }
                 }
             }
-            else
-            {
-                for (var i = 1; i <= 9; i++)
-                {
-                    if (i%2 != 0)
-                    {
-                        AddPlayerBMove(inputStream.ReadLine());
-                    }
-                    else
-                    {
-                        AddPlayerAMove(inputStream.ReadLine());
-                    }
-                }
-            }
+            
         }
 
         private static bool IsAFirstPlayer()
@@ -52,17 +40,8 @@ namespace legacytictactoe
             return new Random((int) DateTime.Now.Ticks & 0x0000FFFF).NextDouble() < 0.5;
         }
 
-        private void AddPlayerAMove(string move)
+        private void AddPlayerMove(Player player, string move)
         {
-            var player = Player.A;
-            outStream.Write(player.ToString());
-            var position = int.Parse(move);
-            tab[position] = player.Token;
-        }
-
-        private void AddPlayerBMove(string move)
-        {
-            var player = Player.B;
             outStream.Write(player.ToString());
             var position = int.Parse(move);
             tab[position] = player.Token;
