@@ -1,0 +1,139 @@
+
+- Smell 1 -> The code does not follow the method code conventions for c#, and they should be: getElapsedMinutes, add, endminutes, startminutes ...
+
+- Smell 2 -> Use Strings to manage dates. If you are doing operations with dates, you should use dates instead of string
+  Line 14:
+            private readonly List<string> _holidays;
+  Line 19:
+            _holidays = dateListToStringList(holidays);
+
+- Smell 3 -> Methods too big: getElapsedMinutes method is too long and complex
+  Lines 23-70:
+            public double getElapsedMinutes(DateTime startDate, DateTime endDate)...
+
+- Smell 4 -> Reuse variables for different purpose
+  Lines 28-39:
+            int hour = startDate.Hour;
+            int minute = startDate.Minute;
+            if (hour == 0 && minute == 0)
+            {
+                startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+            }
+            hour = endDate.Hour;
+            minute = endDate.Minute;
+            if (hour == 0 && minute == 0)
+            {
+                endDate = DateTime.Parse(string.Format("{0} {1}:{2}", endDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+            }
+
+- Smell 5 -> Variable names and method names are not self-explained
+  Lines 28, 29
+            int hour = startDate.Hour;
+            int minute = startDate.Minute;
+  Line 90
+            public DateTime add(DateTime date, int minutes)
+
+- Smell 6 -> Only use braces sometimes when the 'if clause' is only one line
+  Lines 50-64:
+            if (!isWorkingDay(startDate))
+                return 0;
+
+            if (startDate.DayOfWeek == DayOfWeek.Saturday || startDate.DayOfWeek == DayOfWeek.Sunday ||
+                _holidays.Contains(startDate.ToString(DateFormat)))
+                return 0;
+
+            if (isDateBeforeOpenHours(startDate))
+            {
+                startDate = getStartOfDay(startDate);
+            }
+            if (isDateAfterOpenHours(endDate))
+            {
+                endDate = getEndOfDay(endDate);
+            }
+
+- Smell 7 -> Convert a datetime to a string and again to a datetime only to add hours or minutes. Datetime include methods to do this stuff without convert it to a string.
+  Line 32:
+            startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+  Line 38:
+            endDate = DateTime.Parse(string.Format("{0} {1}:{2}", endDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+  Line 223:
+            return DateTime.Parse(string.Format("{0} {1}:{2}", nextDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+  Line 228:
+            return DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+
+- Smell 8 -> More than one return inside the methods. Methods should have only one exit point
+  Lines 23-70
+  Lines 161-191
+
+- Smell 9 -> Duplicated code. It should be only one method with the code and call it when is needed
+  Lines 221-229:
+			private DateTime getStartOfDay(DateTime nextDate)
+			{
+				return DateTime.Parse(string.Format("{0} {1}:{2}", nextDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+			}
+
+			private DateTime getEndOfDay(DateTime startDate)
+			{
+				return DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+			}
+
+  Line 32, 38
+         startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+         endDate = DateTime.Parse(string.Format("{0} {1}:{2}", endDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+
+- Smell 10 -> Same functionality with different code. You should have only one method with the same functionality and use it when needed
+  Lines 50-55:
+            if (!isWorkingDay(startDate))
+                    return 0;
+
+            if (startDate.DayOfWeek == DayOfWeek.Saturday || startDate.DayOfWeek == DayOfWeek.Sunday ||
+                _holidays.Contains(startDate.ToString(DateFormat)))
+                return 0;
+
+  Lines 152-156:
+            private bool isWorkingDay(DateTime date)
+            {
+                return date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday &&
+                       !_holidays.Contains(date.ToString(DateFormat));
+            }
+
+- Smell 11 -> Unnecessary code. You should delete unnecessary code
+  Lines 28-33
+            int hour = startDate.Hour;
+            int minute = startDate.Minute;
+            if (hour == 0 && minute == 0)
+            {
+                startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+            }
+
+  Lines 57-60
+            if (isDateBeforeOpenHours(startDate))
+            {
+                startDate = getStartOfDay(startDate);
+            }
+				
+- Smell 12 -> Magic numbers inside the methods. You should define constant instead using magic numbers
+ Lines 65, 66, 77, 107
+            var endminutes = (endDate.Hour * 60) + endDate.Minute;
+            var startminutes = (startDate.Hour * 60) + startDate.Minute;
+            var workingHoursInMinutes = (_openHours.EndHour - _openHours.StartHour) * 60;
+            var workingHoursInMinutes = (_openHours.EndHour - _openHours.StartHour) * 60;
+
+- Smell 13 -> Too many if clauses that executes the same code. You can extract all the conditions to a method.
+ Lines 163-174
+            if (_holidays.Contains(startDate.ToString(DateFormat)))
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+            if (startDate.DayOfWeek == DayOfWeek.Saturday)
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+            if (startDate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+
+- Smell 14 -> Too many if clauses in the same method. You should extract some to make the code more legible
+  Lines 23-70
+  Lines 161-191
