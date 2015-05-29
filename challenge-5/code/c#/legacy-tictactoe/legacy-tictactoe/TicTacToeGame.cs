@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -23,14 +22,6 @@ namespace TicTacToe
             get { return board; }
         }
 
-        public void WriteWinners()
-        {
-            foreach (var winningPlayer in Board.GetWinningPlayers())
-            {
-                outStream.WriteLine(string.Format("\nthe winner is : {0}\n", winningPlayer.ToString()));
-            }
-        }
-
         public void ReadPlayerMoves()
         {
             for (var i = 1; i <= 9; i++)
@@ -42,6 +33,19 @@ namespace TicTacToe
 
                 Board.AddPlayerMove(position);
             }
+        }
+
+        public IEnumerable<string> GetWinners()
+        {
+            foreach (var winningPlayer in Board.GetWinningPlayers())
+            {
+                yield return string.Format("\nthe winner is : {0}\n", winningPlayer.ToString());
+            }
+        }
+
+        public string GetBoardState()
+        {
+            return Board.ToString();
         }
     }
 }

@@ -26,15 +26,10 @@ namespace TicTacToe
             this.playerOrder = playerOrder;
         }
 
-        public PlayerOrder PlayerOrder
-        {
-            get { return playerOrder; }
-        }
-
         public void AddPlayerMove(string position)
         {
-            board[Int32.Parse(position)] = PlayerOrder.CurrentPlayer.Token;
-            PlayerOrder.ChangeRound();
+            board[Int32.Parse(position)] = playerOrder.CurrentPlayer.Token;
+            playerOrder.ChangeRound();
         }
 
         public IEnumerable<Player> GetWinningPlayers()
@@ -67,7 +62,7 @@ namespace TicTacToe
 
         public Player CurrentPlayer
         {
-            get { return PlayerOrder.CurrentPlayer; }
+            get { return playerOrder.CurrentPlayer; }
         }
     }
 }

@@ -3,34 +3,36 @@ using System.IO;
 
 namespace TicTacToe
 {
-    public class MainClass
+    public class TicTacToeController
     {
         private readonly TextReader inputStream;
         private readonly TextWriter outputStream;
 
-        public MainClass(TextReader inputStream, TextWriter outputStream)
+        public TicTacToeController(TextReader inputStream, TextWriter outputStream)
         {
             this.inputStream = inputStream;
             this.outputStream = outputStream;
         }
 
-        public static void Main(string[] args)
+        public static void Main()
         {
-            new MainClass(Console.In, Console.Out).Evaluate();
+            new TicTacToeController(Console.In, Console.Out).Play();
         }
 
 
-        public  void Evaluate()
+        public void Play()
         {
             var ticTacToeGame = new TicTacToeGame(inputStream, outputStream, GetPlayerOrder());
             try
             {
-                //SRP: choice, evaluate, output
                 ticTacToeGame.ReadPlayerMoves();
 
-                ticTacToeGame.WriteWinners();
+                foreach (var winner in ticTacToeGame.GetWinners())
+                {
+                    outputStream.WriteLine(winner);
+                }
 
-                outputStream.Write(ticTacToeGame.Board.ToString());
+                outputStream.Write(ticTacToeGame.GetBoardState());
             }
             catch (IOException exc)
             {
@@ -38,7 +40,7 @@ namespace TicTacToe
             }
         }
 
-        public static Player[] GetPlayerOrder()
+        private static Player[] GetPlayerOrder()
         {
             var isFirstPlayerA = new Random((int) DateTime.Now.Ticks & 0x0000FFFF).NextDouble() < 0.5;
             if (isFirstPlayerA)
