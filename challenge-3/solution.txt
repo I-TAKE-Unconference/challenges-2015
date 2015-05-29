@@ -1,0 +1,29 @@
+Bug #O
+Current behavior: The player can submit any arbitrary int and may throw an exception if it's inferior to 1 or superior to 9
+Expected behavior: Ask for a good value from the player
+Location: choice (19, 23, 33, 37)
+
+Bug #1
+Current behavior: Any player can check an already checked cell
+Expected behavior: Ask the player to check a non-checked cell
+Location: choice (20, 24, 34, 38)
+
+Bug #2
+Current behavior: the method can be leave even if the grid isn't filled
+Expected behavior: the method should bock until the map is fully filled
+Location: choice
+
+Bug #3
+Current behavior: the method can be leave even if the number of checked cell is equal modulo one
+Expected behavior: an exception should be thrown if that condition isn't valid
+Location: choice
+
+Bug #4
+Current behavior: It can be two winners
+Expected behavior: print a different message like 'equality' and/or relaunch the game
+Location: eval
+
+Bug #5
+Current behavior: it can be no winner without any printing
+Expected behavior: print a dedicated message and/or relaunnch the game
+Location: eval
