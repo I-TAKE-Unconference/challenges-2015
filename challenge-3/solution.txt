@@ -1,0 +1,4 @@
+line 19,23,33,37 - When passing a non-int input, an exception is thrown | allow re-input/error message
+line 19,23,33,37 - When passing an input < 0 or > 9, en exception is throw | allow re-input/error message
+line 19,23,33,37 - When passing 0 as an input, the move isn't registered but the number moves made is increased | allow reinput/treat 0 as unallowed input and display error message
+line 55,66 - When neither player wins, there is no message displayed to the user | equality message should be displayed
