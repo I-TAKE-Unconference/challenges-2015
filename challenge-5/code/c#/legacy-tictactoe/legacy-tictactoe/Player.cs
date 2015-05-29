@@ -19,5 +19,18 @@ namespace TicTacToe
         {
             return String.Format("player {0}", Name);
         }
+
+        public static Player FromToken(char token)
+        {
+            if (A.Token==token)
+            {
+                return A;
+            }
+            if (B.Token==token)
+            {
+                return B;
+            }
+            return null;
+        }
     }
 }
