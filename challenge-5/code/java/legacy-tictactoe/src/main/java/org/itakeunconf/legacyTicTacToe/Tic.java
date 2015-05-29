@@ -2,79 +2,150 @@ package org.itakeunconf.legacyTicTacToe;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Tic {
+    String PLAYER_1_NAME = "player A";
+    String PLAYER_2_NAME = "player B";
+    char PLAYER_1_SYMBOL = 'x';
+    char PLAYER_2_SYMBOL = 'o';
+    int BOARD_SIZE = 9;
+    int boardSizeSquared = (int)Math.sqrt(BOARD_SIZE);
+
     int i, a;
-    char[] tab = new char[10];
+//    for making easy to accept the inputs starting from 1 to 9
+    char[] gameBoard = new char[BOARD_SIZE + 1];
     Scanner scanner;
 
     public Tic() {
         scanner = new Scanner(System.in);
     }
 
-    void choice() throws IOException {
-        float tirage = 0;
+    void runGame(){
+        try {
+            choice();
+            eval();
+            displayGameBoard();
+        } catch (IOException exc){
+            exc.printStackTrace();
+        }
+    }
+
+    private void displayGameBoard(){
+        for (int i = 1; i <= BOARD_SIZE; i++) {
+            System.out.print(this.gameBoard[i]);
+            if (i% boardSizeSquared == 0)
+                System.out.print("\n");
+        }
+    }
+
+    private String[] choosePlayerStartOrder(){
         Random random = new Random(new Date().getTime());
         random.nextFloat();
-        tirage = random.nextFloat();
-
-        if (tirage < 0.5) {
-            for (i = 1; i <= 9; i++) {
-                if (i % 2 != 0) {
-                    System.out.print("player A:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'x';
-                } else {
-                    System.out.print("player B:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'o';
-                }
-            }
+        String [] playerOrder = new String[2];
+        if(random.nextFloat() < 0.5){
+            playerOrder[0] = PLAYER_1_NAME;
+            playerOrder[1] = PLAYER_2_NAME;
         }
+        else{
+            playerOrder[0] = PLAYER_2_NAME;
+            playerOrder[1] = PLAYER_1_NAME;
+        }
+        return playerOrder;
+    }
 
-        if (tirage >= 0.5) {
-            for (i = 1; i <= 9; i++) {
-                if (i % 2 != 0) {
-                    System.out.print("player B:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'o';
-                } else {
-                    System.out.print("player A:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'x';
-                }
+    private void readIndividualChoice(String playerName){
+        a = scanner.nextInt();
+        scanner.nextLine();
+        gameBoard[a] = playerName.equals(PLAYER_1_NAME) ? PLAYER_1_SYMBOL : PLAYER_2_SYMBOL;
+    }
+
+    private void choice() throws IOException {
+        String [] playerOrder = choosePlayerStartOrder();
+        for (i = 1; i <= BOARD_SIZE; i++) {
+            if (i % 2 != 0) {
+                System.out.print(playerOrder[1] + ":");
+                readIndividualChoice(playerOrder[1]);
+            } else {
+                System.out.print(playerOrder[0] + ":");
+                readIndividualChoice(playerOrder[0]);
             }
         }
     }
 
+    private boolean checkWinCondition(char playerSymbol) {
+        return checkRowWin(playerSymbol) || checkColumnWin(playerSymbol) || checkDiagonalWin(playerSymbol);
+    }
+
+    private boolean checkRowWin(char playerSymbol){
+        boolean result;
+        for(int row = 0; row < boardSizeSquared; row++){
+            result = true;
+            int rowStart = 1 + row * boardSizeSquared;
+            int rowEnd = rowStart + boardSizeSquared -1;
+            for(i=rowStart; i <= rowEnd; i++){
+                if (gameBoard[i]!= playerSymbol){
+                    result = false;
+                    break;
+                }
+            }
+            if(result) return result;
+        }
+        return false;
+    }
+
+    private boolean checkColumnWin(char playerSymbol){
+        boolean result;
+        for(int column = 0; column < boardSizeSquared; column++){
+            int columnStart = 1 + column;
+            result = true;
+            for(i=columnStart; i < BOARD_SIZE; i+= boardSizeSquared){
+                if (gameBoard[i]!= playerSymbol){
+                    result = false;
+                    break;
+                }
+            }
+            if(result) return result;
+        }
+        return false;
+    }
+
+    private boolean checkDiagonalWin(char playerSymbol){
+        boolean result;
+
+        Map diagonal1 = new HashMap<String,Integer>();
+        diagonal1.put("start", 1);
+        diagonal1.put("step", boardSizeSquared +1);
+
+        Map diagonal2 = new HashMap<String,Integer>();
+        diagonal2.put("start", boardSizeSquared);
+        diagonal2.put("step", boardSizeSquared - 1);
+
+        Map [] diagonals  = {diagonal1, diagonal2};
+
+        for(Map diagonal:diagonals){
+            int diagonalStart = (Integer)diagonal.get("start");
+            int diagonalStep = (Integer)diagonal.get("step");
+            result = true;
+            for(i=diagonalStart; i < BOARD_SIZE; i+= diagonalStep){
+                if (gameBoard[i]!= playerSymbol){
+                    result = false;
+                    break;
+                }
+            }
+            if(result) return result;
+        }
+        return false;
+    }
+
     void eval() throws IOException {
-        choice();
-        if ((tab[1] == 'x') && (tab[2] == 'x') && (tab[3] == 'x') ||
-                (tab[4] == 'x') && (tab[5] == 'x') && (tab[6] == 'x') ||
-                (tab[7] == 'x') && (tab[8] == 'x') && (tab[9] == 'x') ||
-                (tab[1] == 'x') && (tab[4] == 'x') && (tab[7] == 'x') ||
-                (tab[2] == 'x') && (tab[5] == 'x') && (tab[8] == 'x') ||
-                (tab[3] == 'x') && (tab[6] == 'x') && (tab[9] == 'x') ||
-                (tab[1] == 'x') && (tab[5] == 'x') && (tab[9] == 'x') ||
-                (tab[3] == 'x') && (tab[5] == 'x') && (tab[7] == 'x'))
-
-            System.out.println("\nthe winner is : player A\n");
-
-        if ((tab[1] == 'o') && (tab[2] == 'o') && (tab[3] == 'o') ||
-                (tab[4] == 'o') && (tab[5] == 'o') && (tab[6] == 'o') ||
-                (tab[7] == 'o') && (tab[8] == 'o') && (tab[9] == 'o') ||
-                (tab[1] == 'o') && (tab[4] == 'o') && (tab[7] == 'o') ||
-                (tab[2] == 'o') && (tab[5] == 'o') && (tab[8] == 'o') ||
-                (tab[3] == 'o') && (tab[6] == 'o') && (tab[9] == 'o') ||
-                (tab[1] == 'o') && (tab[5] == 'o') && (tab[9] == 'o') ||
-                (tab[3] == 'o') && (tab[5] == 'o') && (tab[7] == 'o'))
-
-            System.out.println("\nthe winner is : player B\n");
+        if(checkWinCondition(PLAYER_1_SYMBOL)){
+            System.out.println("\nthe winner is : " + PLAYER_1_NAME + "\n");
+        }else if(checkWinCondition(PLAYER_2_SYMBOL)){
+            System.out.println("\nthe winner is : " + PLAYER_2_NAME +"\n");
+        }
     }
 }

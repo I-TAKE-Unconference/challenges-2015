@@ -1,0 +1,117 @@
+challenge 4:
+[1:33:00 PM] alleria_ro: 1.
+lines 44-45
+late parameters check
+if (startDate > endDate)
+                return 0;
+  
+
+2.
+lines 27-38
+duplicate code
+int hour = startDate.Hour;
+int minute = startDate.Minute;
+if (hour == 0 && minute == 0)
+{
+startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+}
+hour = endDate.Hour;
+minute = endDate.Minute;
+if (hour == 0 && minute == 0)
+{
+endDate = DateTime.Parse(string.Format("{0} {1}:{2}", endDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+}
+
+3.
+lines 128-139
+if conditions not merged
+if (_holidays.Contains(endDate.ToString(DateFormat)))
+{
+    return prevOpenDayAfterHoliday(endDate);
+}
+if (endDate.DayOfWeek == DayOfWeek.Saturday)
+{
+    return prevOpenDayAfterHoliday(endDate);
+}
+if (endDate.DayOfWeek == DayOfWeek.Sunday)
+{
+    return prevOpenDayAfterHoliday(endDate);
+}
+
+4.
+lines 132-139
+useless code
+if (endDate.DayOfWeek == DayOfWeek.Saturday)
+{
+    return prevOpenDayAfterHoliday(endDate);
+}
+if (endDate.DayOfWeek == DayOfWeek.Sunday)
+{
+    return prevOpenDayAfterHoliday(endDate);
+}
+
+5.
+lines 208-212
+useless code
+var prevDay = holiday.AddDays(-1);
+if (prevDay.DayOfWeek == DayOfWeek.Saturday)
+    prevDay = prevDay.AddDays(-1);
+if (prevDay.DayOfWeek == DayOfWeek.Sunday)
+    prevDay = prevDay.AddDays(-2);
+    
+6.
+lines 49-54
+redundace code
+if (!isWorkingDay(startDate))
+ return 0;
+
+if (startDate.DayOfWeek == DayOfWeek.Saturday || startDate.DayOfWeek == DayOfWeek.Sunday ||
+    _holidays.Contains(startDate.ToString(DateFormat)))
+ return 0;
+ 
+7.
+line 89
+method is never used
+public DateTime add(DateTime date, int minutes)
+
+8.
+line 206
+bad method naming 
+private DateTime prevOpenDayAfterHoliday(DateTime holiday)
+
+9.
+lines 91-113
+useless processing
+ if (_openHours != null)
+{
+    if (_openHours.StartHour == 0 || _openHours.EndHour == 0)
+ throw new InvalidOperationException("Open hours cannot be started with zero hours or ended with zero hours");
+
+    date = nextOpenDay(date);
+    var endOfDay = getEndOfDay(date);
+    var minutesLeft = (int)endOfDay.Subtract(date).TotalMinutes;
+
+    if (minutesLeft < minutes)
+    {
+ date = nextOpenDay(endOfDay.AddMinutes(1));
+ date = nextOpenDay(date);
+ minutes -= minutesLeft;
+    }
+    var workingHoursInMinutes = (_openHours.EndHour - _openHours.StartHour) * 60;
+    while (minutes > workingHoursInMinutes)
+    {
+ date = getStartOfDay(date.AddDays(1));
+ date = nextOpenDay(date);
+ minutes -= workingHoursInMinutes;
+    }
+}
+
+10. 
+line 22
+wrong method returning type
+public double getElapsedMinutes(DateTime startDate, DateTime endDate)
+
+11.
+line 89
+wrong accessibility level for method
+public DateTime add(DateTime date, int minutes)
