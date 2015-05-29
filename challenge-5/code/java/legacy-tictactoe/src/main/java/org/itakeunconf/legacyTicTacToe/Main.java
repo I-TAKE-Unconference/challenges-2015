@@ -12,6 +12,6 @@ public class Main {
 			exc.printStackTrace();
 		}
 		
-		tic.printTable(System.out);
+		tic.printTable();
 	}
 }
