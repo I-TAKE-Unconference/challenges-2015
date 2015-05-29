@@ -6,75 +6,154 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Tic {
-    int i, a;
     char[] tab = new char[10];
     Scanner scanner;
+    private Player[] players = new Player[2];
+    private IFiller fillStrategy;
+    private IChecker checkStrategy;
 
-    public Tic() {
+    public Tic()
+    {
         scanner = new Scanner(System.in);
+        players[0] = new Player("A", 'x');
+        players[1] = new Player("B", 'o');
+        players[0].next = players[1];
+        players[1].next = players[0];
+        fillStrategy = new Filler(tab, 9, players[0]);
+        checkStrategy = new Checker();
     }
 
     void choice() throws IOException {
-        float tirage = 0;
-        Random random = new Random(new Date().getTime());
-        random.nextFloat();
-        tirage = random.nextFloat();
-
-        if (tirage < 0.5) {
-            for (i = 1; i <= 9; i++) {
-                if (i % 2 != 0) {
-                    System.out.print("player A:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'x';
-                } else {
-                    System.out.print("player B:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'o';
-                }
-            }
-        }
-
-        if (tirage >= 0.5) {
-            for (i = 1; i <= 9; i++) {
-                if (i % 2 != 0) {
-                    System.out.print("player B:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'o';
-                } else {
-                    System.out.print("player A:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'x';
-                }
-            }
-        }
+        tab = fillStrategy.getFilledGrid();
     }
 
     void eval() throws IOException {
         choice();
-        if ((tab[1] == 'x') && (tab[2] == 'x') && (tab[3] == 'x') ||
-                (tab[4] == 'x') && (tab[5] == 'x') && (tab[6] == 'x') ||
-                (tab[7] == 'x') && (tab[8] == 'x') && (tab[9] == 'x') ||
-                (tab[1] == 'x') && (tab[4] == 'x') && (tab[7] == 'x') ||
-                (tab[2] == 'x') && (tab[5] == 'x') && (tab[8] == 'x') ||
-                (tab[3] == 'x') && (tab[6] == 'x') && (tab[9] == 'x') ||
-                (tab[1] == 'x') && (tab[5] == 'x') && (tab[9] == 'x') ||
-                (tab[3] == 'x') && (tab[5] == 'x') && (tab[7] == 'x'))
+        checkStrategy.setNewGrid(tab);
+        for (Player p : players)
+            p.checkVictory(checkStrategy);
+    }
 
-            System.out.println("\nthe winner is : player A\n");
+    private interface Winnerable
+    {
+        void claimVictory();
+    }
 
-        if ((tab[1] == 'o') && (tab[2] == 'o') && (tab[3] == 'o') ||
-                (tab[4] == 'o') && (tab[5] == 'o') && (tab[6] == 'o') ||
-                (tab[7] == 'o') && (tab[8] == 'o') && (tab[9] == 'o') ||
-                (tab[1] == 'o') && (tab[4] == 'o') && (tab[7] == 'o') ||
-                (tab[2] == 'o') && (tab[5] == 'o') && (tab[8] == 'o') ||
-                (tab[3] == 'o') && (tab[6] == 'o') && (tab[9] == 'o') ||
-                (tab[1] == 'o') && (tab[5] == 'o') && (tab[9] == 'o') ||
-                (tab[3] == 'o') && (tab[5] == 'o') && (tab[7] == 'o'))
+    private class Player implements Winnerable
+    {
+        String name;
+        char mark;
+        Player next;
 
-            System.out.println("\nthe winner is : player B\n");
+        Player(String n, char m)
+        {
+            name = n;
+            mark = m;
+        }
+
+        public void checkVictory(IChecker checker)
+        {
+            checker.checkWinner(mark, this);
+        }
+
+        public void claimVictory()
+        {
+            System.out.println("\nthe winner is : player " + name + "\n");
+        }
+
+        public void askForCheck()
+        {
+            System.out.print("player " + name + ":");
+        }
+    }
+
+    private interface IFiller
+    {
+        char[] getFilledGrid();
+    }
+
+    private class Filler implements IFiller
+    {
+        private char[] grid;
+        private int nbChoices;
+        private Player currentPlayer;
+        public Filler(char[] g, int nb, Player startingPlayer)
+        {
+            grid = g;
+            nbChoices = nb;
+            currentPlayer = startingPlayer;
+        }
+
+        public char[] getFilledGrid()
+        {
+            Random random = new Random(new Date().getTime());
+            random.nextFloat();
+            if (random.nextFloat() >= 0.5)
+                nextTurn();
+
+            for (int i = 1; i <= nbChoices; i++)
+            {
+                askForCheck();
+                nextTurn();
+            }
+
+            return grid;
+        }
+
+        private void nextTurn()
+        {
+            currentPlayer = currentPlayer.next;
+        }
+
+        void askForCheck()
+        {
+            currentPlayer.askForCheck();
+            int a = scanner.nextInt();
+            scanner.nextLine();
+            tab[a] = currentPlayer.mark;
+        }
+    }
+
+    private interface IChecker
+    {
+        void setNewGrid(char[] newGrid);
+        void checkWinner(char mark, Winnerable w);
+    }
+
+    private class Checker implements IChecker
+    {
+        private char[] grid;
+        private char[][] winCombinaisons = new char[][]{
+            {1, 2, 3}, {4, 5, 6}, {7, 8, 9},
+            {1, 4, 7}, {2, 5, 8}, {3, 6, 9},
+            {1, 5, 9}, {3, 5, 9}
+        };
+
+        public void setNewGrid(char[] newGrid)
+        {
+            grid = newGrid;
+        }
+
+        public void checkWinner(char mark, Winnerable w)
+        {
+            if (isThereAWinConditionFilled(mark))
+                w.claimVictory();
+        }
+
+        private Boolean isThereAWinConditionFilled(char mark)
+        {
+            Boolean winner;
+            for (char[] possibility : winCombinaisons)
+            {
+                winner = true;
+
+                for (char position : possibility)
+                    winner = winner && grid[position] == mark;
+
+                if (winner)
+                    return true;
+            }
+            return false;
+        }
     }
 }
