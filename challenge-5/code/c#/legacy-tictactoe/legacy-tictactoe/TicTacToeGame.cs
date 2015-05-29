@@ -23,18 +23,15 @@ namespace TicTacToe
             get { return board; }
         }
 
-        public void Evaluate()
+        public void WriteWinners()
         {
-            //SRP: choice, evaluate, output
-            Choice();
-
             foreach (var winningPlayer in Board.GetWinningPlayers())
             {
                 outStream.WriteLine(string.Format("\nthe winner is : {0}\n", winningPlayer.ToString()));
             }
         }
 
-        private void Choice()
+        public void ReadPlayerMoves()
         {
             for (var i = 1; i <= 9; i++)
             {
