@@ -1,0 +1,34 @@
+- line 9 - Too generic class name
+		public class Calculation
+- line 22 - Usage un cammel case for method names
+		public double getElapsedMinutes(DateTime startDate, DateTime endDate)
+- line 25,94 - Excessive use of literals 
+		throw new InvalidOperationException("Open hours cannot be started with zero hours or ended with zero hours");
+- line 22-88 - Long Method
+			 - Cyclomatic complexity
+			 
+		public double getElapsedMinutes(DateTime startDate, DateTime endDate)
+- line 27-38 - Code duplication
+			 - Reuse of variable	
+			 - Bad way of creating DateTime
+			 - Parameter overwrite
+			int hour = startDate.Hour;
+            int minute = startDate.Minute;
+            if (hour == 0 && minute == 0)
+            {
+                startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+            }
+            hour = endDate.Hour;
+            minute = endDate.Minute;
+            if (hour == 0 && minute == 0)
+            {
+                endDate = DateTime.Parse(string.Format("{0} {1}:{2}", endDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+            }
+- line 47 	 - Bad DateTime comparison
+		if (startDate.ToString(DateFormat).Equals(endDate.ToString(DateFormat)))
+- line 13,14 - Usage of Hungarian notation
+		private readonly List<string> _holidays;
+        private readonly OpenHours _openHours;
+
+
+- line 126,160 - Large class - 
