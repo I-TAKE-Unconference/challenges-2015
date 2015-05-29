@@ -6,75 +6,130 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Tic {
-    int i, a;
-    char[] tab = new char[10];
-    Scanner scanner;
+	final static public char X_CHAR = 'x';
+	final static public char O_CHAR = 'o';
+	final static private Random random = new Random(new Date().getTime());
+	final static private float FIFTY_PERCENT_TRESHOLD = 0.5f;
 
-    public Tic() {
-        scanner = new Scanner(System.in);
-    }
+	final Scanner scanner = new Scanner(System.in);
 
-    void choice() throws IOException {
-        float tirage = 0;
-        Random random = new Random(new Date().getTime());
-        random.nextFloat();
-        tirage = random.nextFloat();
+	private char[] tab;
+	private int tableSize;
 
-        if (tirage < 0.5) {
-            for (i = 1; i <= 9; i++) {
-                if (i % 2 != 0) {
-                    System.out.print("player A:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'x';
-                } else {
-                    System.out.print("player B:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'o';
-                }
-            }
-        }
+	public Tic(int tableSize) {
+		super();
 
-        if (tirage >= 0.5) {
-            for (i = 1; i <= 9; i++) {
-                if (i % 2 != 0) {
-                    System.out.print("player B:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'o';
-                } else {
-                    System.out.print("player A:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'x';
-                }
-            }
-        }
-    }
+		this.tableSize = tableSize;
+		this.tab = new char[tableSize * tableSize + 1];
+	}
 
-    void eval() throws IOException {
-        choice();
-        if ((tab[1] == 'x') && (tab[2] == 'x') && (tab[3] == 'x') ||
-                (tab[4] == 'x') && (tab[5] == 'x') && (tab[6] == 'x') ||
-                (tab[7] == 'x') && (tab[8] == 'x') && (tab[9] == 'x') ||
-                (tab[1] == 'x') && (tab[4] == 'x') && (tab[7] == 'x') ||
-                (tab[2] == 'x') && (tab[5] == 'x') && (tab[8] == 'x') ||
-                (tab[3] == 'x') && (tab[6] == 'x') && (tab[9] == 'x') ||
-                (tab[1] == 'x') && (tab[5] == 'x') && (tab[9] == 'x') ||
-                (tab[3] == 'x') && (tab[5] == 'x') && (tab[7] == 'x'))
+	public void printTable() {
+		for (int i = 1; i <= tableSize * tableSize; i++) {
+			System.out.print(tab[i]);
 
-            System.out.println("\nthe winner is : player A\n");
+			if (i % tableSize == 0) {
+				System.out.print("\n");
+			}
+		}
+	}
 
-        if ((tab[1] == 'o') && (tab[2] == 'o') && (tab[3] == 'o') ||
-                (tab[4] == 'o') && (tab[5] == 'o') && (tab[6] == 'o') ||
-                (tab[7] == 'o') && (tab[8] == 'o') && (tab[9] == 'o') ||
-                (tab[1] == 'o') && (tab[4] == 'o') && (tab[7] == 'o') ||
-                (tab[2] == 'o') && (tab[5] == 'o') && (tab[8] == 'o') ||
-                (tab[3] == 'o') && (tab[6] == 'o') && (tab[9] == 'o') ||
-                (tab[1] == 'o') && (tab[5] == 'o') && (tab[9] == 'o') ||
-                (tab[3] == 'o') && (tab[5] == 'o') && (tab[7] == 'o'))
+	void play() throws IOException {
+		final int startingPlayerIndex = (random.nextFloat() < FIFTY_PERCENT_TRESHOLD) ? 1
+				: 0;
 
-            System.out.println("\nthe winner is : player B\n");
-    }
+		for (int i = 1; i <= tableSize * tableSize; i++) {
+			readNextMove(i, i % 2 == startingPlayerIndex);
+		}
+	}
+
+	private void readNextMove(int i, boolean firstPlayerIsNext) {
+		if (firstPlayerIsNext) {
+			System.out.print("player A:");
+			tab[scanner.nextInt()] = X_CHAR;
+		} else {
+			System.out.print("player B:");
+			tab[scanner.nextInt()] = O_CHAR;
+		}
+
+		scanner.nextLine();
+	}
+
+	void eval() throws IOException {
+		play();
+
+		displayWinner();
+	}
+
+	private void displayWinner() {
+		if (firstPlayerWins()) {
+			System.out.println("\nthe winner is : player A\n");
+		}
+
+		if (secondPlayerWins()) {
+			System.out.println("\nthe winner is : player B\n");
+		}
+	}
+
+	private boolean firstPlayerWins() {
+		return isThereALine(X_CHAR);
+	}
+
+	private boolean secondPlayerWins() {
+		return isThereALine(O_CHAR);
+	}
+
+	private boolean isThereALine(char playerName) {
+		return isHorizontalLine(playerName) || isVerticalLine(playerName)
+				|| isDiagonalLine(playerName);
+	}
+
+	private boolean isHorizontalLine(char playerName) {
+		boolean cellHasPlayerName;
+
+		for (int i = 1; i <= tableSize; i += tableSize) {
+			cellHasPlayerName = true;
+
+			for (int j = 0; (j < tableSize) && cellHasPlayerName; j++) {
+				cellHasPlayerName = (tab[i + j] == playerName);
+			}
+
+			if (cellHasPlayerName) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private boolean isVerticalLine(char playerName) {
+		boolean cellHasPlayerName;
+
+		for (int i = 1; i <= tableSize; i++) {
+			cellHasPlayerName = true;
+
+			for (int j = 0; (j < tableSize) && cellHasPlayerName; j++) {
+				cellHasPlayerName = (tab[i + j * tableSize] == playerName);
+			}
+
+			if (cellHasPlayerName) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private boolean isDiagonalLine(char playerName) {
+		boolean upperDiagonal = true;
+		boolean lowerDiagonal = true;
+
+		for (int i = 1; i <= tableSize; i++) {
+			upperDiagonal = upperDiagonal
+					&& (tab[i + (i - 1) * tableSize] == playerName);
+			lowerDiagonal = lowerDiagonal
+					&& (tab[i * tableSize - (i - 1)] == playerName);
+		}
+
+		return upperDiagonal || lowerDiagonal;
+	}
 }
