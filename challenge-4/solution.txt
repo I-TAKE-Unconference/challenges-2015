@@ -1,0 +1,61 @@
+line: 11-250
+name: class with too big
+code: the entire class
+
+
+line: 162
+name: conditional complexity: large logic blocks
+code: 	 
+ 					if (_holidays.Contains(startDate.ToString(DateFormat)))
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+            if (startDate.DayOfWeek == DayOfWeek.Saturday)
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+            if (startDate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+            if (isDateBeforeOpenHours(startDate))
+            {
+                return getStartOfDay(startDate);
+            }
+            if (isDateAfterOpenHours(startDate))
+            {
+
+                var nextDate = startDate.AddDays(1);
+
+                if (_holidays.Contains(nextDate.ToString(DateFormat)))
+                {
+                    return nextOpenDayAfterHoliday(nextDate);
+                }
+                return getStartOfDay(nextDate);
+            }
+
+
+line: 14/62/64
+name: inconsistence variable names
+code: _openHours
+			endDate
+			endminutes
+
+
+line: 126/160
+name: Strikingly similar  methods
+code: prevOpenDay and nextOpenDay can be combined into a generic method
+
+line: 18
+name: constructor should not contain business logic
+code:  _holidays = dateListToStringList(holidays);
+
+
+line: 93
+name: duplicate code
+code: 
+			if (_openHours.StartHour == 0 || _openHours.EndHour == 0)
+                    throw new InvalidOperationException("Open hours cannot be started with zero hours or ended with zero hours");
+
+
+    
