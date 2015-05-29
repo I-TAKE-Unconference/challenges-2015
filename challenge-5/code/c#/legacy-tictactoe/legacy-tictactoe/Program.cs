@@ -5,12 +5,22 @@ namespace TicTacToe
 {
     public class MainClass
     {
-        public static void Main(string[] args)
+        private readonly TextReader inputStream;
+        private readonly TextWriter outputStream;
+
+        public MainClass(TextReader inputStream, TextWriter outputStream)
         {
-            RunGame(Console.In, Console.Out);
+            this.inputStream = inputStream;
+            this.outputStream = outputStream;
         }
 
-        public static void RunGame(TextReader inputStream, TextWriter outputStream)
+        public static void Main(string[] args)
+        {
+            new MainClass(Console.In, Console.Out).Evaluate();
+        }
+
+
+        public  void Evaluate()
         {
             var ticTacToeGame = new TicTacToeGame(inputStream, outputStream, GetPlayerOrder());
             try

@@ -12,9 +12,9 @@ namespace TicTacToe.Tests
         private TextWriter outputStream;
         private TextReader inputStream;
 
-        public TicTacToeGame CreateSUT()
+        public MainClass CreateSUT()
         {
-            return new TicTacToeGame(inputStream, outputStream, MainClass.GetPlayerOrder());
+            return new MainClass(inputStream, outputStream);
         }
 
         [SetUp]
@@ -230,7 +230,7 @@ namespace TicTacToe.Tests
             public void WritesBoard()
             {
                 inputStream.ReadLine().Returns("1", "2", "4", "5", "7", "8", "3", "6", "9");
-                MainClass.RunGame(inputStream, outputStream);
+                new MainClass(inputStream, outputStream).Evaluate();
                 var allWrites = string.Join("",
                     outputStream.ReceivedCalls()
                         .SelectMany(call => call.GetArguments())
