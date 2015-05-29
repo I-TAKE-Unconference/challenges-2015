@@ -1,0 +1,92 @@
+Name: Confusing reuse of local variable
+Line: 27-29, 33-35
+```
+int hour = startDate.Hour;
+int minute = startDate.Minute;
+
+hour = endDate.Hour;
+minute = endDate.Minute;
+
+```
+
+Name: Contrived complexity
+Line: 31, 37, 222, 227
+```
+startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+
+```
+
+
+Name: Cyclomatic complexity, contrieved complexity
+Line: 22-87, 126-148, 160-190
+```
+public double getElapsedMinutes(DateTime startDate, DateTime endDate)
+{
+  if (_openHours.StartHour == 0 || _openHours.EndHour == 0)
+  ...
+  return totalUsedMinutes;
+}
+
+        private DateTime prevOpenDay(DateTime endDate)
+        {
+            if (_holidays.Contains(endDate.ToString(DateFormat)))
+            {
+                return prevOpenDayAfterHoliday(endDate);
+            }
+            if (endDate.DayOfWeek == DayOfWeek.Saturday)
+            {
+                return prevOpenDayAfterHoliday(endDate);
+            }
+            if (endDate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return prevOpenDayAfterHoliday(endDate);
+            }
+            if (isDateBeforeOpenHours(endDate))
+            {
+                return getStartOfDay(endDate);
+            }
+            if (isDateAfterOpenHours(endDate))
+            {
+                return getEndOfDay(endDate);
+            }
+            return endDate;
+        }
+
+```
+
+```
+        private DateTime nextOpenDay(DateTime startDate)
+        {
+            if (_holidays.Contains(startDate.ToString(DateFormat)))
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+            if (startDate.DayOfWeek == DayOfWeek.Saturday)
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+            if (startDate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+            if (isDateBeforeOpenHours(startDate))
+            {
+                return getStartOfDay(startDate);
+            }
+            if (isDateAfterOpenHours(startDate))
+            {
+
+                var nextDate = startDate.AddDays(1);
+
+                if (_holidays.Contains(nextDate.ToString(DateFormat)))
+                {
+                    return nextOpenDayAfterHoliday(nextDate);
+                }
+                return getStartOfDay(nextDate);
+            }
+            return startDate;
+        }
+
+```
+
+
