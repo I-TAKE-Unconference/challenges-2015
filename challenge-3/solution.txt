@@ -1,5 +1,24 @@
-* description of current behavior
-* description of expected behavior
-* location of bug (method or line number)
+1. 
+	tab is sized 10, board is only 9
+	tab should be sized 9
+	line 8
 
+2. 
+	int i variable in for (line 16,30) is for (i = 1; i <= 9; i++). 
+	For a tab[9] it should be: for (i = 0; i <= 8; i++) or for (i = 0; i < 9; i++).
+	line 16,30
+
+3. 
+	method eval() contains choice()
+	eval() should do just the scoring evalution, not X/O choice 
+	eval() line 44
+
+4. 
+	there is no evalution after each move
+	after each move, you should evaluate if a winner exist, eval() in each for() cycle after the moves, as in line 25 and 39
+	The for cycles are at line 16 and 30
+
+5. 
+	if a winner is found, the game doesnt stop. 
+	It should stop. At the end of for cycles, same as 4. We make eval() to return an int e = 1 for winner
 
