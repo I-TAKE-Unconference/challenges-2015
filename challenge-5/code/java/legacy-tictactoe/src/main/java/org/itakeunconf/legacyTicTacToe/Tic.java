@@ -1,80 +1,42 @@
 package org.itakeunconf.legacyTicTacToe;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.List;
 
 public class Tic {
-    int i, a;
-    char[] tab = new char[10];
-    Scanner scanner;
+	CommandLine commandLine;
+	GameRules gameRules;
 
-    public Tic() {
-        scanner = new Scanner(System.in);
-    }
+	public Tic() {
+		commandLine = new CommandLine();
+		gameRules = new GameRules();
+	}
 
-    void choice() throws IOException {
-        float tirage = 0;
-        Random random = new Random(new Date().getTime());
-        random.nextFloat();
-        tirage = random.nextFloat();
+	void eval() {
+		run();
+		commandLine.print(gameRules.getBoard());
+	}
 
-        if (tirage < 0.5) {
-            for (i = 1; i <= 9; i++) {
-                if (i % 2 != 0) {
-                    System.out.print("player A:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'x';
-                } else {
-                    System.out.print("player B:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'o';
-                }
-            }
-        }
+	private void run() {
+		play();
+		checkWinner();
+	}
 
-        if (tirage >= 0.5) {
-            for (i = 1; i <= 9; i++) {
-                if (i % 2 != 0) {
-                    System.out.print("player B:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'o';
-                } else {
-                    System.out.print("player A:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'x';
-                }
-            }
-        }
-    }
+	private void play() {
+		int boardPositions = gameRules.getBoardPositions();
+		for (int i = 0; i < boardPositions; i++) {
+			readPlayer(gameRules.getPlayerTurn());
+		}
+	}
 
-    void eval() throws IOException {
-        choice();
-        if ((tab[1] == 'x') && (tab[2] == 'x') && (tab[3] == 'x') ||
-                (tab[4] == 'x') && (tab[5] == 'x') && (tab[6] == 'x') ||
-                (tab[7] == 'x') && (tab[8] == 'x') && (tab[9] == 'x') ||
-                (tab[1] == 'x') && (tab[4] == 'x') && (tab[7] == 'x') ||
-                (tab[2] == 'x') && (tab[5] == 'x') && (tab[8] == 'x') ||
-                (tab[3] == 'x') && (tab[6] == 'x') && (tab[9] == 'x') ||
-                (tab[1] == 'x') && (tab[5] == 'x') && (tab[9] == 'x') ||
-                (tab[3] == 'x') && (tab[5] == 'x') && (tab[7] == 'x'))
+	private void readPlayer(Player player) {
+		commandLine.print(player.getName() + ":");
+		gameRules.setBoardChoice(player, commandLine.getNumber());
+	}
 
-            System.out.println("\nthe winner is : player A\n");
+	private void checkWinner() {
+		List<Player> winners = gameRules.getWinner();
+		for (Player player : winners)
+			commandLine.print("\nthe winner is : " + player.getName() + "\n\n");
+	}
 
-        if ((tab[1] == 'o') && (tab[2] == 'o') && (tab[3] == 'o') ||
-                (tab[4] == 'o') && (tab[5] == 'o') && (tab[6] == 'o') ||
-                (tab[7] == 'o') && (tab[8] == 'o') && (tab[9] == 'o') ||
-                (tab[1] == 'o') && (tab[4] == 'o') && (tab[7] == 'o') ||
-                (tab[2] == 'o') && (tab[5] == 'o') && (tab[8] == 'o') ||
-                (tab[3] == 'o') && (tab[6] == 'o') && (tab[9] == 'o') ||
-                (tab[1] == 'o') && (tab[5] == 'o') && (tab[9] == 'o') ||
-                (tab[3] == 'o') && (tab[5] == 'o') && (tab[7] == 'o'))
-
-            System.out.println("\nthe winner is : player B\n");
-    }
 }
