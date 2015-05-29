@@ -1,0 +1,32 @@
+Current: The available positions are 10 instead of 9 of the reality
+Expected: The expected behaviour is to have 9 positions in whatever kind of variable type instead of 10
+Location: line 8
+
+Current: You can write bad arguments like letters outside the board or characters
+Expected: If you define a board with number, only numbers corresponding to the numbers defined in the board should be allowed
+Location: 19, 23, 33, 37
+
+Current: You can set whatever number even if does not correspond to any board position
+Expected: We should filter available positions to ensure that the arguments are valid
+Location: lines 20, 24, 34, 38
+
+Current: Positions of the board can be repeated
+Expected: We should filter if the position is occupied
+Location: choice method
+
+Current: choice method is not private so you can only call choice method and you will never have a winner. It is a uncontrolled infinite loop
+Expected: you only have to be able to call the main method, the method that has the game logic
+Location: choice method
+
+Current: You cannot win before players fill all board game positions.
+Expected: We should evaluate if some player wins the game after each movement
+Location:
+
+
+Current: It is possible to have two winners
+Expected: Only one player can win or neither one
+Location:
+
+Current: If you run the program since Windows instead of since console, you are not able to show the result
+Expected: You always has to be able to check the final result
+Location:
