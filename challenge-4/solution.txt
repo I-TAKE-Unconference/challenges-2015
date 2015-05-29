@@ -1,0 +1,408 @@
+--------------------------------------------------------
+
+Line 31, Line 222
+Duplicated code
+On line 220, it defines a method that could be very well used in line 31. Something like getStartOfDay(startDate);
+
+31:  startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+        
+220: private DateTime getStartOfDay(DateTime nextDate)
+221: {
+222:     return DateTime.Parse(string.Format("{0} {1}:{2}", nextDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+223: }
+
+--------------------------------------------------------
+
+Line 37, Line 227
+Duplicated code
+On line 225, it defines a method that could be very well used in line 31. Something like getEndOfDay(endDate);
+
+37:  endDate = DateTime.Parse(string.Format("{0} {1}:{2}", endDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+
+225: private DateTime getEndOfDay(DateTime startDate)
+226: {
+227:     return DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+228: }
+
+--------------------------------------------------------
+
+Line 220
+Inconsistent Names
+The parameter name "nextDate" of the method don't reflect its usage. Why is using "next" word? 
+
+220: private DateTime getStartOfDay(DateTime nextDate)
+221: {
+222:     return DateTime.Parse(string.Format("{0} {1}:{2}", nextDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+223: }
+
+-------------------------------------------------------
+
+Line 225
+Inconsistent Names
+The parameter name "startDate" of the method don't reflect its usage. Why is using "start" word?
+
+225: private DateTime getEndOfDay(DateTime startDate)
+226: {
+227:     return DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+228: }
+
+-------------------------------------------------------
+
+Lines: 31, 37, 47, 53, 122, 128, 154, 162, 183, 199, 213, 222, 227
+Duplicated code
+There are a lot of places with calls for ToString(DateFormat) on some DateTime object. I would suggest some refactoring. Create a method and use it in those places:
+private String dateToSTring(DateTime date) {
+	return date.ToString(DateFormat);
+}
+
+31:   startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate., _openHours.StartHour, _openHours.StartMinute));
+37:   endDate = DateTime.Parse(string.Format("{0} {1}:{2}", endDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+47:   if (startDate.ToString(DateFormat).Equals(endDate.ToString(DateFormat)))
+53:   _holidays.Contains(startDate.ToString(DateFormat))
+122:  return dates.Select(piDate => piDate.ToString(DateFormat)).ToList();
+128:  if (_holidays.Contains(endDate.ToString(DateFormat)))
+154:  !_holidays.Contains(date.ToString(DateFormat);
+162:  if (_holidays.Contains(startDate.ToString(DateFormat)))
+183:  if (_holidays.Contains(nextDate.ToString(DateFormat)))
+199:  while (_holidays.Contains(nextDay.ToString(DateFormat)))
+222:  return DateTime.Parse(string.Format("{0} {1}:{2}", nextDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+227:  return DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+
+-------------------------------------------------------
+
+Lines: 31, 37, 47, 53, 120
+Needless complexity
+DateTime is converted to a string and a string is converted to a DateTime.
+The code should use only DateTime objects.
+
+31: startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+37: endDate = DateTime.Parse(string.Format("{0} {1}:{2}", endDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+47: if (startDate.ToString(DateFormat).Equals(endDate.ToString(DateFormat)))
+
+
+Also the holidays list suffers of the same "trick":
+
+18:  _holidays = dateListToStringList(holidays);
+...
+53: _holidays.Contains(startDate.ToString(DateFormat))
+...
+120: private List<string> dateListToStringList(IEnumerable<DateTime> dates)
+121: {
+122:     return dates.Select(piDate => piDate.ToString(DateFormat)).ToList();
+123: }
+
+-------------------------------------------------------
+
+Line: 22
+Long method
+The getElapsedMinutes does too much.
+
+22: public double getElapsedMinutes(DateTime startDate, DateTime endDate)
+    {
+    ..........
+88: }
+
+-------------------------------------------------------
+
+Lines 27 - 38
+Duplicated code
+This lines are very similar:
+
+27: int hour = startDate.Hour;
+    int minute = startDate.Minute;
+    if (hour == 0 && minute == 0)
+    {
+       startDate = DateTime.Parse(string.Format("{0} {1}:{2}", startDate.ToString(DateFormat), _openHours.StartHour, _openHours.StartMinute));
+    }
+    hour = endDate.Hour;
+    minute = endDate.Minute;
+    if (hour == 0 && minute == 0)
+    {
+       endDate = DateTime.Parse(string.Format("{0} {1}:{2}", endDate.ToString(DateFormat), _openHours.EndHour, _openHours.EndMinute));
+38: }
+
+-------------------------------------------------------
+
+Lines 128 - 139
+Conditional Complexity
+
+128: if (_holidays.Contains(endDate.ToString(DateFormat)))
+129: {
+130:     return prevOpenDayAfterHoliday(endDate);
+131: }
+132: if (endDate.DayOfWeek == DayOfWeek.Saturday)
+133: {
+134:     return prevOpenDayAfterHoliday(endDate);
+135: }
+136: if (endDate.DayOfWeek == DayOfWeek.Sunday)
+137: {
+138:     return prevOpenDayAfterHoliday(endDate);
+139: }
+
+
+These three if blocks should be combined in one if block and the condition should be a method that tests if is not a working day. The code already has one:
+
+151: private bool isWorkingDay(DateTime date)
+152: {
+153:     return date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday &&
+154:            !_holidays.Contains(date.ToString(DateFormat));
+155: }
+
+-------------------------------------------------------
+
+Lines: 52-54, 151-155
+Duplicated code
+The code from 52-54 should be removed. The !isWorkingDay(startDate) method call already does that job (52-54).
+
+49: if (!isWorkingDay(startDate))
+50:     return 0;
+51:
+52: if (startDate.DayOfWeek == DayOfWeek.Saturday || startDate.DayOfWeek == DayOfWeek.Sunday ||
+53:     _holidays.Contains(startDate.ToString(DateFormat)))
+54:     return 0;
+
+
+The definition of isWorkingDay() method:
+
+151: private bool isWorkingDay(DateTime date)
+152: {
+153:     return date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday &&
+154:            !_holidays.Contains(date.ToString(DateFormat));
+155: }
+
+-------------------------------------------------------
+
+Lines 49-63, 126-149:
+Duplicated code
+
+See also previous explanation. The lines from 56-63 are similar with 140-147.
+This means that all the lines from 49-63 can be replaced by a call to prevOpenDay(startDate) method.
+
+49: if (!isWorkingDay(startDate))
+50:     return 0;
+51:
+52: if (startDate.DayOfWeek == DayOfWeek.Saturday || startDate.DayOfWeek == DayOfWeek.Sunday ||
+53:     _holidays.Contains(startDate.ToString(DateFormat)))
+54:     return 0;
+55:
+56: if (isDateBeforeOpenHours(startDate))
+57: {
+58:     startDate = getStartOfDay(startDate);
+59: }
+60: if (isDateAfterOpenHours(endDate))
+61: {
+62:     endDate = getEndOfDay(endDate);
+63: }
+
+126: private DateTime prevOpenDay(DateTime endDate)
+127: {
+128:     if (_holidays.Contains(endDate.ToString(DateFormat)))
+129:     {
+130:         return prevOpenDayAfterHoliday(endDate);
+131:     }
+132:     if (endDate.DayOfWeek == DayOfWeek.Saturday)
+133:     {
+134:         return prevOpenDayAfterHoliday(endDate);
+135:     }
+136:     if (endDate.DayOfWeek == DayOfWeek.Sunday)
+137:     {
+138:         return prevOpenDayAfterHoliday(endDate);
+139:     }
+140:     if (isDateBeforeOpenHours(endDate))
+141:     {
+142:         return getStartOfDay(endDate);
+143:     }
+144:     if (isDateAfterOpenHours(endDate))
+145:     {
+146:         return getEndOfDay(endDate);
+147:     }
+148:     return endDate;
+149:   }
+
+-------------------------------------------------------
+
+Line 126
+Inconsistent Names
+
+The method receives a parameter called "endDate". Why is using "end"?  It can be renamed just to "date".
+
+126: private DateTime prevOpenDay(DateTime endDate)
+127: {
+128:     if (_holidays.Contains(endDate.ToString(DateFormat)))
+129:     {
+130:         return prevOpenDayAfterHoliday(endDate);
+131:     }
+132:     if (endDate.DayOfWeek == DayOfWeek.Saturday)
+133:     {
+134:         return prevOpenDayAfterHoliday(endDate);
+135:     }
+136:     if (endDate.DayOfWeek == DayOfWeek.Sunday)
+137:     {
+138:         return prevOpenDayAfterHoliday(endDate);
+139:     }
+140:     if (isDateBeforeOpenHours(endDate))
+141:     {
+142:         return getStartOfDay(endDate);
+143:     }
+144:     if (isDateAfterOpenHours(endDate))
+145:     {
+146:         return getEndOfDay(endDate);
+147:     }
+148:     return endDate;
+149:   }
+
+-------------------------------------------------------
+
+Lines 192-206
+Needless complexity & Code duplication
+
+These methods can be combined in one and decide on a boolean param if is next or previpous.
+If we do this, than also the nextOpenDay() and prevOpenDay() methods implementation can be combined.
+
+192:    private DateTime nextOpenDayAfterHoliday(DateTime holiday)
+        {
+            var nextDay = holiday.AddDays(1);
+            if (nextDay.DayOfWeek == DayOfWeek.Saturday)
+                nextDay = nextDay.AddDays(2);
+            if (nextDay.DayOfWeek == DayOfWeek.Sunday)
+                nextDay = nextDay.AddDays(1);
+            while (_holidays.Contains(nextDay.ToString(DateFormat)))
+            {
+                nextDay = nextDay.AddDays(1);
+            }
+            return getStartOfDay(nextDay);
+        }
+
+        private DateTime prevOpenDayAfterHoliday(DateTime holiday)
+        {
+            var prevDay = holiday.AddDays(-1);
+            if (prevDay.DayOfWeek == DayOfWeek.Saturday)
+                prevDay = prevDay.AddDays(-1);
+            if (prevDay.DayOfWeek == DayOfWeek.Sunday)
+                prevDay = prevDay.AddDays(-2);
+            while (_holidays.Contains(prevDay.ToString(DateFormat)))
+            {
+                prevDay = prevDay.AddDays(-1);
+            }
+            return getEndOfDay(prevDay);
+206:    }
+
+-------------------------------------------------------
+
+Lines 126-218
+Needless complexity & Code duplication
+
+Everywherre in code where is holiday list used, the Saturday and Sunday usage also appear.
+The holiday list can contain the Saturday and Sunday days also.
+
+126:    private DateTime prevOpenDay(DateTime endDate)
+        {
+            if (_holidays.Contains(endDate.ToString(DateFormat)))
+            {
+                return prevOpenDayAfterHoliday(endDate);
+            }
+            if (endDate.DayOfWeek == DayOfWeek.Saturday)
+            {
+                return prevOpenDayAfterHoliday(endDate);
+            }
+            if (endDate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return prevOpenDayAfterHoliday(endDate);
+            }
+            if (isDateBeforeOpenHours(endDate))
+            {
+                return getStartOfDay(endDate);
+            }
+            if (isDateAfterOpenHours(endDate))
+            {
+                return getEndOfDay(endDate);
+            }
+            return endDate;
+        }
+
+        private bool isWorkingDay(DateTime date)
+        {
+            return date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday &&
+                   !_holidays.Contains(date.ToString(DateFormat));
+        }
+
+
+
+
+        private DateTime nextOpenDay(DateTime startDate)
+        {
+            if (_holidays.Contains(startDate.ToString(DateFormat)))
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+            if (startDate.DayOfWeek == DayOfWeek.Saturday)
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+            if (startDate.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return nextOpenDayAfterHoliday(startDate);
+            }
+            if (isDateBeforeOpenHours(startDate))
+            {
+                return getStartOfDay(startDate);
+            }
+            if (isDateAfterOpenHours(startDate))
+            {
+
+                var nextDate = startDate.AddDays(1);
+
+                if (_holidays.Contains(nextDate.ToString(DateFormat)))
+                {
+                    return nextOpenDayAfterHoliday(nextDate);
+                }
+                return getStartOfDay(nextDate);
+            }
+            return startDate;
+        }
+
+        private DateTime nextOpenDayAfterHoliday(DateTime holiday)
+        {
+            var nextDay = holiday.AddDays(1);
+            if (nextDay.DayOfWeek == DayOfWeek.Saturday)
+                nextDay = nextDay.AddDays(2);
+            if (nextDay.DayOfWeek == DayOfWeek.Sunday)
+                nextDay = nextDay.AddDays(1);
+            while (_holidays.Contains(nextDay.ToString(DateFormat)))
+            {
+                nextDay = nextDay.AddDays(1);
+            }
+            return getStartOfDay(nextDay);
+        }
+
+        private DateTime prevOpenDayAfterHoliday(DateTime holiday)
+        {
+            var prevDay = holiday.AddDays(-1);
+            if (prevDay.DayOfWeek == DayOfWeek.Saturday)
+                prevDay = prevDay.AddDays(-1);
+            if (prevDay.DayOfWeek == DayOfWeek.Sunday)
+                prevDay = prevDay.AddDays(-2);
+            while (_holidays.Contains(prevDay.ToString(DateFormat)))
+            {
+                prevDay = prevDay.AddDays(-1);
+            }
+            return getEndOfDay(prevDay);
+218:    }
+
+-------------------------------------------------------
+
+Line 9
+Inconsistent Names
+
+The main class name is called Calculation. It should reffer that handles DateTime manipulations also.
+
+9: public class Calculation
+
+------------------------------------------------------
+
+All the Calculation class
+Large class
+
+The classes should do one thing and do it well. The Calculation class does too much ...
+
+------------------------------------------------------
