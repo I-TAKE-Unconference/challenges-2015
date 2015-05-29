@@ -7,11 +7,11 @@ namespace legacytictactoe
 	{
 		public static void Main (string[] args)
 		{
-			Tic tic = new Tic();
+			var ticTacToeGame = new TicTacToeGame();
 			try {
-				tic.eval();
+				ticTacToeGame.StartGame();
 				for (int i = 1; i <= 9; i++) {
-					Console.Write(tic.tab[i]);
+					Console.Write(ticTacToeGame.GameMatrix[i]);
 					if (i == 3 || i == 6 || i == 9)
 						Console.Write("\n");
 				}
