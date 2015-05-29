@@ -1,0 +1,14 @@
+1.
+user input data is not validated
+the data that the user provides should be validated, i.e. it should be checked that the values entered are integer numbers between 1 and 9
+this may be fixed by validating data read at lines: 19, 23, 33 and 37, in choice() method
+
+2.
+the game should end when a user wins or the table is filled in
+the way it is implemented now, the game ends only when the table is filled; the game should check if a user won after each move; there is no need to continue playing if a user wins
+this may be fixed by calling the eval() method from the choice() method (not the other way around), after each move a player makes
+
+3.
+the player's move is not validated; the way it works now, a user may choose an already occupied position of the board
+the game should check for each move if the selected position is already filled in
+this may be fixed by adding an if statement that checks if the chosen board position is fill in or not, before assigning a value to a board's position (in method choice())
