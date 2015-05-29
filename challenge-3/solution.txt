@@ -1,0 +1,21 @@
+* description of current behavior
+if input from keyboard is > 10 app crash or not anumber
+* description of expected behavior
+should validate keyboard input (>0; <10)
+* location of bug (method or line number)
+19
+
+* description of current behavior
+app doesn't stop when there is a winner
+* description of expected behavior
+when somedoy wins should display a winner message and stop 
+* location of bug (method or line number)
+method eval
+
+* description of current behavior
+console doesn't have a readline atend so you can seethe result
+* description of expected behavior
+when game is finished I should be able to see theresult
+* location of bug (method or line number)
+method eval
+
