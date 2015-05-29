@@ -7,6 +7,7 @@ namespace TicTacToe
 {
     public class Board
     {
+        private readonly PlayerOrder playerOrder;
         private readonly char[] board = new char[10];
 
         private static readonly int[][] WinningCombinations = {
@@ -20,10 +21,20 @@ namespace TicTacToe
             new[]{3,5,7}
         };
 
-        public void AddPlayerMove(Player player, string positionText)
+        public Board(PlayerOrder playerOrder)
         {
-            var position = Int32.Parse(positionText);
-            board[position] = player.Token;
+            this.playerOrder = playerOrder;
+        }
+
+        public PlayerOrder PlayerOrder
+        {
+            get { return playerOrder; }
+        }
+
+        public void AddPlayerMove(string position)
+        {
+            board[Int32.Parse(position)] = PlayerOrder.CurrentPlayer.Token;
+            PlayerOrder.ChangeRound();
         }
 
         public IEnumerable<Player> GetWinningPlayers()
@@ -52,6 +63,11 @@ namespace TicTacToe
                 }
             }
             return stringBuilder.ToString();
+        }
+
+        public Player CurrentPlayer
+        {
+            get { return PlayerOrder.CurrentPlayer; }
         }
     }
 }

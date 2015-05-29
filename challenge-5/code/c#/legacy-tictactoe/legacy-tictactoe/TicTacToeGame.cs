@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace TicTacToe
@@ -9,11 +10,12 @@ namespace TicTacToe
         private readonly TextWriter outStream;
         private readonly Board board;
 
-        public TicTacToeGame(TextReader input, TextWriter output, Player[] getPlayerOrder)
+        public TicTacToeGame(TextReader input, TextWriter output, Player[] playerOrder)
         {
             inputStream = input;
             outStream = output;
-            board = new Board();
+
+            board = new Board(new PlayerOrder(playerOrder));
         }
 
         public Board Board
@@ -21,10 +23,10 @@ namespace TicTacToe
             get { return board; }
         }
 
-        public void Evaluate(Player[] playOrder)
+        public void Evaluate()
         {
             //SRP: choice, evaluate, output
-            Choice(playOrder);
+            Choice();
 
             foreach (var winningPlayer in Board.GetWinningPlayers())
             {
@@ -32,13 +34,16 @@ namespace TicTacToe
             }
         }
 
-        private void Choice(Player[] playerOrder)
+        private void Choice()
         {
             for (var i = 1; i <= 9; i++)
             {
-                var currentPlayer = playerOrder[(i + 1)%2];
+                var currentPlayer = Board.CurrentPlayer;
                 outStream.Write(currentPlayer + ":");
-                Board.AddPlayerMove(currentPlayer, inputStream.ReadLine());
+
+                var position = inputStream.ReadLine();
+
+                Board.AddPlayerMove(position);
             }
         }
     }

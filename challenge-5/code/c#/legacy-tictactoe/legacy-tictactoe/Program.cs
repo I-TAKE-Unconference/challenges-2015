@@ -15,7 +15,7 @@ namespace TicTacToe
             var ticTacToeGame = new TicTacToeGame(inputStream, outputStream, GetPlayerOrder());
             try
             {
-                ticTacToeGame.Evaluate(GetPlayerOrder());
+                ticTacToeGame.Evaluate();
                 outputStream.Write(ticTacToeGame.Board.ToString());
             }
             catch (IOException exc)
