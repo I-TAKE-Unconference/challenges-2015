@@ -1,0 +1,6 @@
+Long method: getElapsedMinutes
+
+Duplicated code: prevOpenDay and nextOpenDay
+
+
+
