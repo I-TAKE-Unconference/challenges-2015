@@ -1,0 +1,39 @@
+1. User A can choose the same cell as user B
+	current behavior: user A selects cell 1, user B can select the same cell
+ expected behavior: if one cell is already selected, the user should be notified to choose another available cell
+ 							line: on choise() method, line 23, line 37
+
+2. Both players can be winners
+	current behavior: Two win message are displayed if user A and user B wins on the same game.
+ expected behavior: Only one user should be the winner. 
+ 							line: eval method (ifs)
+
+3. Exception thrown on non-digit inputs
+	current behavior: Exception is thrown when a user add non-digit character
+ expected behavior: only digits number should be allowed on this game (a proper message should be displayed and user should be able to add his choise again)
+ 							line: choise method
+
+4. No constraints for user choises (index out of bounds exception)
+	current behavior: users can add as input any number (lower or greater than 0)
+ expected behavior: users should be forced to use only numbers between this range: 0 to 10
+ 							line: choise method
+
+5. No message displayed for a draw game
+	current behavior: there is no message displayed when there is no winner
+ expected behavior: a 'draw' message should be displayed if no user has gain.
+ 							line: eval method
+
+6. Game not ended if user A wins.
+  current behavior: if user A will win, the game continues
+ expected behavior: when a player will win, the appropiate message is displayed ('the winner is: <name>') and the game stopes.
+ 						  line: choise method
+
+7. No welcome message is displayed
+  current behavior: there is no welcome message displayed, or what should be the next step in the game
+ expected behavior: an intro message should be displayed with available options that users can choose
+ 						  line: choise method
+
+8. User can add empty values as input
+  current behavior: empty, null values are accepted as user's input
+ expected behavior: on empty input, the user should be prompt again to type his choise
+ 						  line: choise method
