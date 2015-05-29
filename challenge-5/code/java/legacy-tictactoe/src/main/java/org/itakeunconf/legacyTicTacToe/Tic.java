@@ -6,75 +6,97 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Tic {
-    int i, a;
-    char[] tab = new char[10];
-    Scanner scanner;
+  int i, a;
+  char[] tab = new char[10];
+  Scanner scanner;
+  static char PlayerA = 'x';
+  static char PlayerB = 'o';
 
-    public Tic() {
-        scanner = new Scanner(System.in);
+  public Tic() {
+    scanner = new Scanner(System.in);
+  }
+
+  void choice() throws IOException {
+    float tirage = 0;
+    Random random = new Random(new Date().getTime());
+    random.nextFloat();
+    tirage = random.nextFloat();
+
+    if (tirage < 0.5) {
+      startGame(PlayerA);
+    }
+    if (tirage >= 0.5) {
+      startGame(PlayerB);
+    }
+  }
+
+  private void startGame(char firstPlayer) {
+    char secondPlayer = (firstPlayer == PlayerA) ? PlayerB : PlayerA;
+    Player first = new Player(firstPlayer), second = new Player(secondPlayer);
+
+    for (i = 1; i <= 9; i++) {
+      if (i % 2 != 0) {
+        first.nextMove();
+      } else {
+        second.nextMove();
+      }
+    }
+  }
+
+  class Player {
+    char player;
+    String message;
+
+    Player(char player) {
+      if (player == PlayerA) {
+        this.player = player;
+        this.message = "player A:";
+      } else if (player == PlayerB) {
+        this.player = player;
+        this.message = "player B:";
+      } else {
+        throw new IllegalArgumentException("Player must be " + PlayerA + " or " + PlayerB);
+      }
     }
 
-    void choice() throws IOException {
-        float tirage = 0;
-        Random random = new Random(new Date().getTime());
-        random.nextFloat();
-        tirage = random.nextFloat();
-
-        if (tirage < 0.5) {
-            for (i = 1; i <= 9; i++) {
-                if (i % 2 != 0) {
-                    System.out.print("player A:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'x';
-                } else {
-                    System.out.print("player B:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'o';
-                }
-            }
-        }
-
-        if (tirage >= 0.5) {
-            for (i = 1; i <= 9; i++) {
-                if (i % 2 != 0) {
-                    System.out.print("player B:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'o';
-                } else {
-                    System.out.print("player A:");
-                    a = scanner.nextInt();
-                    scanner.nextLine();
-                    tab[a] = 'x';
-                }
-            }
-        }
+    public void nextMove() {
+      System.out.print(message);
+      a = scanner.nextInt();
+      scanner.nextLine();
+      tab[a] = player;
     }
+  }
 
-    void eval() throws IOException {
-        choice();
-        if ((tab[1] == 'x') && (tab[2] == 'x') && (tab[3] == 'x') ||
-                (tab[4] == 'x') && (tab[5] == 'x') && (tab[6] == 'x') ||
-                (tab[7] == 'x') && (tab[8] == 'x') && (tab[9] == 'x') ||
-                (tab[1] == 'x') && (tab[4] == 'x') && (tab[7] == 'x') ||
-                (tab[2] == 'x') && (tab[5] == 'x') && (tab[8] == 'x') ||
-                (tab[3] == 'x') && (tab[6] == 'x') && (tab[9] == 'x') ||
-                (tab[1] == 'x') && (tab[5] == 'x') && (tab[9] == 'x') ||
-                (tab[3] == 'x') && (tab[5] == 'x') && (tab[7] == 'x'))
-
-            System.out.println("\nthe winner is : player A\n");
-
-        if ((tab[1] == 'o') && (tab[2] == 'o') && (tab[3] == 'o') ||
-                (tab[4] == 'o') && (tab[5] == 'o') && (tab[6] == 'o') ||
-                (tab[7] == 'o') && (tab[8] == 'o') && (tab[9] == 'o') ||
-                (tab[1] == 'o') && (tab[4] == 'o') && (tab[7] == 'o') ||
-                (tab[2] == 'o') && (tab[5] == 'o') && (tab[8] == 'o') ||
-                (tab[3] == 'o') && (tab[6] == 'o') && (tab[9] == 'o') ||
-                (tab[1] == 'o') && (tab[5] == 'o') && (tab[9] == 'o') ||
-                (tab[3] == 'o') && (tab[5] == 'o') && (tab[7] == 'o'))
-
-            System.out.println("\nthe winner is : player B\n");
+  void eval() throws IOException {
+    choice();
+    if (playerHasWon(PlayerA)) {
+      System.out.println("\nthe winner is : player A\n");
     }
+    if (playerHasWon(PlayerB)) {
+      System.out.println("\nthe winner is : player B\n");
+    }
+  }
+
+  private boolean playerHasWon(char player) {
+    return (checkWinOnHorizontalLines(player) || checkWinOnVerticalLines(player) ||
+        checkWinOnDiagonals(player));
+  }
+
+  private boolean checkWinOnDiagonals(char player) {
+    return (tab[1] == player) && (tab[5] == player) && (tab[9] == player) ||
+        (tab[3] == player) && (tab[5] == player) && (tab[7] == player);
+  }
+
+  private boolean checkWinOnHorizontalLines(char player) {
+    return (tab[1] == player) && (tab[2] == player) && (tab[3] == player) ||
+        (tab[4] == player) && (tab[5] == player) && (tab[6] == player) ||
+        (tab[7] == player) && (tab[8] == player) && (tab[9] == player);
+  }
+
+  private boolean checkWinOnVerticalLines(char player) {
+    return (tab[1] == player) && (tab[4] == player) && (tab[7] == player) ||
+        (tab[2] == player) && (tab[5] == player) && (tab[8] == player) ||
+        (tab[3] == player) && (tab[6] == player) && (tab[9] == player);
+  }
+
 }

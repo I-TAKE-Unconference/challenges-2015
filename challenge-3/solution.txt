@@ -1,0 +1,40 @@
+Bugs
+====
+
+CB = Current Behaviour
+EB = Expected Behaviour
+Line = Line number in file
+
+1. Tic class build a larger matrix
+----------------------------------
+CB: tab charr array is a size 10 array
+EB: A size 9 array should be allocated
+Line: 8
+
+2. No input validation for Player A
+-----------------------------------
+CB: Player input is not checked to be in valid range: 1-9
+EB: We should check if input (a) is between 1 and 9 inclusive
+Line: 19
+
+3. No input validation for Player B
+-----------------------------------
+CB: Player input is not checked to be in valid range: 1-9
+EB: We should check if input (a) is between 1 and 9 inclusive
+Line: 23
+
+
+4. User choice is not validated against current games state
+-----------------------------------------------------------
+CB: Player can replay a square which is ilegall -- he can override the other playe choice
+EB: We should check if the square has been assigned 'x' or 'o' before assignation and retry if it's not available.
+Line: 20, 24 (player A) ; 34, 38 (player B)
+
+5. Winner is validated at the end and Player A (x) is favorit
+---------------------------------------------------------------
+CB: Winner is checked after all board is full and Player A (x) is checked first. This means that even if Player B (o) made the winnning move first, he will still loose.
+EB: We should check for victory after every move.
+Line: 44
+
+
+
