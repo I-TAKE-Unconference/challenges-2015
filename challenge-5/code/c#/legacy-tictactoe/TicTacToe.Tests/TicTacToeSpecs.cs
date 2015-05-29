@@ -148,6 +148,30 @@ namespace TicTacToe.Tests
         }
 
         [TestFixture]
+        public class PlayerWinsTwice : TicTacToeSpecs
+        {
+            private object GetFirstPlayerName()
+            {
+                var firstPlayerText = outputStream.ReceivedCalls().First().GetArguments().First().ToString();
+                return firstPlayerText[firstPlayerText.Length - 2];
+            }
+
+            private string WinningPlayerMessage()
+            {
+                return string.Format("\nthe winner is : player {0}\n", GetFirstPlayerName());
+            }
+
+            [Test]
+            public void DisplaysOnlyOneMessage()
+            {
+                var sut = CreateSUT();
+                inputStream.ReadLine().Returns("1", "2", "3", "4", "5", "6", "7", "8", "9");
+                sut.Evaluate();
+                outputStream.Received(1).WriteLine(Arg.Is((string str) => str.Equals(WinningPlayerMessage())));
+            }
+        }
+
+        [TestFixture]
         public class SecondPlayerWins : TicTacToeSpecs
         {
             private object GetSecondPlayerName()
@@ -212,7 +236,8 @@ namespace TicTacToe.Tests
                         .SelectMany(call => call.GetArguments())
                         .Select(a => a.ToString())
                         .ToArray());
-                (allWrites.Contains("oxo\noxx\noxo") || allWrites.Contains("xox\nxoo\nxox")).Should().BeTrue("all output does not contain expected board layout:"+allWrites);
+                (allWrites.Contains("oxo\noxx\noxo") || allWrites.Contains("xox\nxoo\nxox")).Should()
+                    .BeTrue("all output does not contain expected board layout:" + allWrites);
             }
         }
     }

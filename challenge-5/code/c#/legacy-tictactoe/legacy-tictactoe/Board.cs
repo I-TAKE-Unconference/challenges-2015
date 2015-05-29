@@ -39,7 +39,7 @@ namespace TicTacToe
 
         public IEnumerable<Player> GetWinningPlayers()
         {
-            return GetWinningTokens().SelectMany(Player.IteratorFromToken);
+            return GetWinningTokens().SelectMany(Player.IteratorFromToken).Distinct();
         }
 
         private IEnumerable<char> GetWinningTokens()
