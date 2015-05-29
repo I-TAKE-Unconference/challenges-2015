@@ -1,0 +1,24 @@
+1
+	method eval() contains choice()
+	eval() should do just the scoring evalution, not X/O choice 
+	eval() line 44
+
+2 
+	there is no evalution after each move
+	after each move, you should evaluate if a winner exist, eval() in each for() cycle after the moves, as in line 25 and 39
+	The for cycles are at line 16 and 30
+
+3 
+	Game allows players to input the same value.
+	Game should check if input value was already used by a player, and ask for a new one.
+	line 19, 23, 33, 37
+
+4
+	Game has no message if there is no winner
+	Game should display a mesasge for tie sitautions
+	line 66
+
+5 
+	Game allows players to input values out of bounds
+	Game should check if input value is out of bounds and ask for a new one.
+	line 19, 23, 33, 37

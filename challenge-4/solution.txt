@@ -1,0 +1,51 @@
+1
+	line 22
+	long method
+	public double getElapsedMinutes(DateTime startDate, DateTime endDate)
+
+2
+	line 47
+	useless method calls
+	if (startDate.ToString(DateFormat).Equals(endDate.ToString(DateFormat)))
+
+3
+	line 71
+	not needed variable creation
+	            var endOfDay = getEndOfDay(startDate);
+            var startOfDay = getStartOfDay(endDate);
+            var usedMinutesinEndDate = endDate.Subtract(startOfDay).TotalMinutes;
+            var usedMinutesinStartDate = endOfDay.Subtract(startDate).TotalMinutes;
+            var tempStartDate = startDate.AddDays(1);
+            var workingHoursInMinutes = (_openHours.EndHour - _openHours.StartHour) * 60;
+            var totalUsedMinutes = usedMinutesinEndDate + usedMinutesinStartDate;
+
+4
+	almost all lines
+	no formating, hard ot read
+	almost all lines
+
+5
+	line 230
+	method returns other than its name: it returns true for the first minute after opening hour
+        private bool isDateBeforeOpenHours(DateTime startDate)
+	
+6
+	line 234
+	method returns other than its name: it returns true for the first minute after end hour
+        private bool isDateAfterOpenHours(DateTime startDate)
+
+7
+	line 206
+	method can return Saturday/Sunday if a whole week is a holiday	
+        private DateTime prevOpenDayAfterHoliday(DateTime holiday)
+
+8
+	line 192
+	method can return Saturday/Sunday if a whole week is a holiday	
+        private DateTime nextOpenDayAfterHoliday(DateTime holiday)
+
+9
+	line 91
+	contrived complexity: input vlaidation should exit the function
+        if (_openHours != null) {business logic} return result
+
