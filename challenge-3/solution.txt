@@ -1,0 +1,49 @@
+--------------------------------------------------------
+
+Action: Player enters number greater than 9.
+Current behaviour: Something like 'ArrayIndexOutOfBoundsException' if it were in java.
+Expected behavior: Display a friendly error and ask again for the number. Specify in the error the correct whole number range as [1-9].
+Line: 20, 24, 34, 38
+
+--------------------------------------------------------
+
+Action: Player enters a number already taken/marked.
+Current behaviour: No error diplayed.
+Expected behavior: Display a friendly error and ask again for the number. Specify in the error that that number was already picked.
+Line: 20, 24, 34, 38
+
+--------------------------------------------------------
+
+Action: Player presses 'Enter' key without a number/string.
+Current behaviour: Something like 'NumberFormatException' if it were in java.
+Expected behavior: Display a friendly error and ask again for the number. Specify in the error that empty values aren't allowed.
+Line: 20, 24, 34, 38
+
+--------------------------------------------------------
+
+Action: Player enters a non-numeric value.
+Current behaviour: Something like 'NumberFormatException:' if it were in java.
+Expected behavior: Display a friendly error and ask again for the number. Specify in the error that only whole numbers are allowed in range [1-9].
+Line: 20, 24, 34, 38
+
+--------------------------------------------------------
+
+Action: Player enters number 0
+Current behaviour: No error diplayed.
+Expected behavior: Display a friendly error and ask again for the number. Specify in the error the correct whole number range as [1-9].
+Line: 20, 24, 34, 38
+
+--------------------------------------------------------
+
+Action: Player occupies all the positions from line before the other player makes its move
+Current behaviour: Player is a winner at the end.
+Expected behavior: Player is a winner as soon as posible.
+Line: 20, 24, 34, 38
+
+--------------------------------------------------------
+
+Action: Player occupies all the positions from first line. The other player occupies all the positions from second line.
+Current behaviour: Both players are winners at the end.
+Expected behavior: Player that occupies first the line is a winner.
+Line: 20, 24, 34, 38
+
