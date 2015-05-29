@@ -28,10 +28,10 @@ namespace TicTacToe
 
         public IEnumerable<Player> GetWinningPlayers()
         {
-            return GetWinningPlayersTokens().SelectMany(Player.IteratorFromToken);
+            return GetWinningTokens().SelectMany(Player.IteratorFromToken);
         }
 
-        private IEnumerable<char> GetWinningPlayersTokens()
+        private IEnumerable<char> GetWinningTokens()
         {
             return from possibleWinner in WinningCombinations 
                    where 
