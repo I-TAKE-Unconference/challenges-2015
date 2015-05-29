@@ -1,0 +1,4 @@
+1. shoud_generate_with_success_a_CSV_File
+2.should_write_with_success_a_row_in_CSV_file
+3.should_write_with_success_CSV_Header
+4.Should_throw_exception_when_failed_to_create_CSV_file
