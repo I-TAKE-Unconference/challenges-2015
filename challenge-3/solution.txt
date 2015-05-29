@@ -1,0 +1,7 @@
+* there isn't any branch notifying none of the players won
+* should have been if() then 'player A' else if() 'player B' else 'none'
+* the eval method
+
+* both players can win in the same time, as the game isn't stopped after a party wins
+* should call eval() after each move
+* after lines 25 and 39
