@@ -26,6 +26,19 @@ namespace TicTacToe
             board[position] = player.Token;
         }
 
+        public IEnumerable<Player> GetWinningPlayers()
+        {
+            return GetWinningPlayersTokens().SelectMany(Player.IteratorFromToken);
+        }
+
+        private IEnumerable<char> GetWinningPlayersTokens()
+        {
+            return from possibleWinner in WinningCombinations 
+                   where 
+                        board[possibleWinner[0]] == board[possibleWinner[1]] && 
+                        board[possibleWinner[1]] == board[possibleWinner[2]] 
+                   select board[possibleWinner[0]];
+        }
 
         public override string ToString()
         {
@@ -39,20 +52,6 @@ namespace TicTacToe
                 }
             }
             return stringBuilder.ToString();
-        }
-
-        private IEnumerable<char> GetWinningPlayersTokens()
-        {
-            return from possibleWinner in WinningCombinations 
-                   where 
-                        board[possibleWinner[0]] == board[possibleWinner[1]] && 
-                        board[possibleWinner[1]] == board[possibleWinner[2]] 
-                   select board[possibleWinner[0]];
-        }
-
-        public IEnumerable<Player> GetWinningPlayers()
-        {
-            return GetWinningPlayersTokens().Select(Player.FromToken).Where(p=>p!=null);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TicTacToe
 {
@@ -6,6 +7,7 @@ namespace TicTacToe
     {
         public static Player A = new Player("A", 'x');
         public static Player B = new Player("B", 'o');
+
         public char Token { get; private set; }
         private string Name { get; set; }
 
@@ -20,17 +22,16 @@ namespace TicTacToe
             return String.Format("player {0}", Name);
         }
 
-        public static Player FromToken(char token)
+        public static IEnumerable<Player> IteratorFromToken(char token)
         {
-            if (A.Token==token)
+            if (A.Token == token)
             {
-                return A;
+                yield return A;
             }
-            if (B.Token==token)
+            if (B.Token == token)
             {
-                return B;
+                yield return B;
             }
-            return null;
         }
     }
 }
